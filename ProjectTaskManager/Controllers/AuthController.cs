@@ -1,0 +1,68 @@
+using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Projecttaskmanager.DTOs;
+using Projecttaskmanager.Models;
+using System.IdentityModel.Tokens.Jwt;
+using Projecttaskmanager.Services;
+using Microsoft.AspNetCore.Authorization;
+
+namespace Projecttaskmanager.Controllers
+{
+
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController(IAuthService authService) : ControllerBase
+    {
+
+       [HttpPost("register")]
+      public async Task<ActionResult<Users>> Register(UserResponce request)
+        {
+           var user = await authService.RegisterAsync(request);
+           if(user is null)
+                return BadRequest("Username already exists.");
+
+
+            return Ok(user);
+        }
+        [HttpPost("login")]
+        public async Task<ActionResult<TokenResponce>> Login(UserResponce request)
+        {
+            var result = await authService.LoginAsync(request);
+            if(result is null)
+            {
+                return BadRequest("Invalid User name or Password.");
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<TokenResponce>> RefreshToken(RefreshTokenRequestDto request)
+        {
+            var result =await authService.RefreshTokensAsync(request);
+            if(result is null || result.AccessToken is null || result.RefreshToken is null)
+            {
+                return Unauthorized("Invalid refresh token.");
+                
+            }
+            return Ok(result);
+        }
+
+
+        [Authorize(Roles = "Admin")] 
+        [HttpGet("admin-only")]
+        public IActionResult AdminOnlyEndpoint()
+        {
+            return Ok("You are Admin!");
+        }
+
+    }
+}
