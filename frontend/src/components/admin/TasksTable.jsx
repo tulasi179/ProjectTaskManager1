@@ -1,0 +1,55 @@
+const TasksTable= ({ tasks, users }) => {
+  return (
+    <div className='bg-white rounded-xl shadow-sm p-6'>
+      <h3 className='text-lg font-semibold text-gray-800 mb-4'>Recent Tasks</h3>
+
+      <div className='overflow-x-auto'>
+        <table className='w-full text-sm'>
+          <thead>
+            <tr className='bg-gray-50 text-left text-gray-500'>
+              <th className='px-4 py-3'>Title</th>
+              <th className='px-4 py-3'>Description</th>
+              <th className='px-4 py-3'>Assigned To</th>
+              <th className='px-4 py-3'>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {tasks.slice(0, 8).map(t => {
+              const assignee = users.find(u => u.id === t.assigneeId)
+
+              return (
+                <tr key={t.id} className='border-t hover:bg-gray-50'>
+                  <td className='px-4 py-3'>{t.title}</td>
+                  <td className='px-4 py-3'>{t.description}</td>
+                  <td className='px-4 py-3'>
+                    {assignee?.username || `User #${t.assigneeId}`}
+                  </td>
+                  <td className='px-4 py-3'>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium
+                      ${t.status === 'Pending' ? 'bg-yellow-100 text-yellow-700' : ''}
+                      ${t.status === 'InProgress' ? 'bg-blue-100 text-blue-700' : ''}
+                      ${t.status === 'Completed' ? 'bg-green-100 text-green-700' : ''}
+                    `}>
+                      {t.status}
+                    </span>
+                  </td>
+                </tr>
+              )
+            })}
+
+            {tasks.length === 0 && (
+              <tr>
+                <td colSpan='4' className='text-center py-6 text-gray-400'>
+                  No tasks found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
+export default TasksTable

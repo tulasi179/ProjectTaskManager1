@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import Notification from '../Notifications'
 import './Navbar.css'
 
 function Navbar() {
@@ -11,12 +12,14 @@ function Navbar() {
     navigate('/login')
   }
 
+   const dashboardPath = user?.role === 'Admin' ? '/admindashboard' : '/userdashboard'
+
   return (
     <nav className='navbar'>
       <h1>Project Task Manager</h1>
       
       <div className='nav-links'>
-        <Link to='/dashboard'>Dashboard</Link>
+        <Link to={dashboardPath}>Dashboard</Link>
 
         {user?.role === 'Admin' && (
           <Link to='/projects'>Projects</Link>

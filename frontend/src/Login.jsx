@@ -1,6 +1,7 @@
 import { useNavigate , Link} from 'react-router-dom'
 import api from './api/axios'
-import Dashboard from './Dashboard'
+import UserDashboard from './components/user/UserDashboard'
+import AdminDashboard from './components/admin/AdminDashboard'
 import React, { useState } from 'react'
 import { useAuth } from './context/AuthContext'
 import './Login.css'
@@ -16,8 +17,9 @@ const Login = () => {
         SetForm({...form, [e.target.name]: e.target.value})
     }
 
+    //two way binding
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault()//forms default behaviour that when you submit the page reloads to stop that.
         //stops form form refreshing the page after submitting
         setError('')
         setLoading(true)
@@ -44,14 +46,15 @@ const Login = () => {
 
             login(userData, accessToken , refreshToken)
             if(userData.role=='Admin')
-                navigate('/dashboard')
+                navigate('/admindashboard')
             else
-                navigate('/dashboard')
+                navigate('/userdashboard')
         } catch(err){
                 setError(err.response?.data || 'invalid username or password.')
         } finally{
                 setLoading(false)
         }
+        // SetForm("")
     }
   return (
     <div className='login-container'>
