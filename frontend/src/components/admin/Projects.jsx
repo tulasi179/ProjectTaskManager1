@@ -1,57 +1,68 @@
-import { useState, useEffect } from 'react'
+import React, { useState ,useEffect} from 'react'
+import api from '../../api/axios'
+import './Projects.css'
+import Navbar from '../Navbar'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import api from '../../api/axios'
-import Navbar from '../Navbar'
+
 
 const Projects = () => {
-  const { user, authLoading } = useAuth()
+
+  const {user} =useAuth()
   const navigate = useNavigate()
 
-  const [projects, setProjects] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [showModal, setShowModal] = useState(false)
-  const [editProject, setEditProject] = useState(null)
-  const [form, setForm] = useState({ name: '', ownerId: '', startDate: '', endDate: '' })
-  const [error, setError] = useState('')
-  const [submitting, setSubmitting] = useState(false)
+  const[projects, setProjects] = useState([])
+  const[loading , setLoading] =useState(true)
+  const [error, setError] =useState('')
+  const [form, setForm] = useState({
+    name: '',
+    ownerId: '',
+    description:'',
+    startDate:'',
+    endDate: ''
+  })
+ const [showModal, setShowModal] = useState(false)
+ const [editProject, setEditProject] = useState(null)
 
-  useEffect(() => {
-    if (authLoading) return
-    if (!user || user.role !== 'Admin') { navigate('/login'); return }
+
+   useEffect(() => {
+    if (!user) { navigate('/login'); return }
     fetchProjects()
-  }, [authLoading])
+  }, [])
 
-  const fetchProjects = async () => {
-    try {
+  const fetchProjects =async () => {
+    try{
       const res = await api.get('/project')
-      const data = res.data.data || res.data
-      setProjects(Array.isArray(data) ? data : [])
-    } catch (err) {
+      setProjects(res.data)//or res.data.data since we didnt add any pagination 
+
+    } catch(err)
+    {
       console.error(err)
-    } finally {
+    }finally{
       setLoading(false)
     }
   }
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
+    setForm({...form, [e.target.name] :e.target.value})
   }
 
-  const openCreateModal = () => {
+
+   const openCreateModal = () => {
     setEditProject(null)
-    setForm({ name: '', ownerId: user.id, startDate: '', endDate: '' })
+    setForm({ name: '', ownerId: user.id, description: '', startDate: '', endDate: '' })
     setError('')
     setShowModal(true)
   }
 
-  const openEditModal = (p) => {
-    setEditProject(p)
+  const openEditModal = (project) => {
+    setEditProject(project)
     setForm({
-      name: p.name,
-      ownerId: p.ownerId,
-      startDate: p.startDate?.split('T')[0],
-      endDate: p.endDate?.split('T')[0]
+      name: project.name,
+      ownerId: project.ownerId,
+      description :project.description || '',
+      startDate: project.startDate?.split('T')[0],
+      endDate: project.endDate?.split('T')[0]
     })
     setError('')
     setShowModal(true)
@@ -60,7 +71,6 @@ const Projects = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    setSubmitting(true)
     try {
       if (editProject) {
         await api.put(`/project/${editProject.id}`, form)
@@ -71,8 +81,6 @@ const Projects = () => {
       fetchProjects()
     } catch (err) {
       setError(err.response?.data?.message || 'Something went wrong.')
-    } finally {
-      setSubmitting(false)
     }
   }
 
@@ -82,115 +90,87 @@ const Projects = () => {
       await api.delete(`/project/${id}`)
       fetchProjects()
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to delete.')
+      alert(err.response?.data?.message || 'Failed to delete project.')
     }
   }
 
-  if (authLoading || loading) return (
-    <div className='flex items-center justify-center h-screen text-gray-500 text-lg'>
-      Loading...
-    </div>
-  )
+
+  if(loading) return <div className='loading'>Loading...</div>
 
   return (
-    <div className='min-h-screen bg-gray-100'>
-      <Navbar />
-
-      <div className='max-w-7xl mx-auto px-6 py-8'>
-
-        {/* Header */}
-        <div className='flex justify-between items-center mb-8'>
-          <div>
-            <h2 className='text-2xl font-bold text-gray-800'>Projects</h2>
-            <p className='text-sm text-gray-500 mt-1'>{projects.length} total projects</p>
-          </div>
-          <button
-            onClick={openCreateModal}
-            className='bg-indigo-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition'
-          >
-            + New Project
-          </button>
+    <div className='projects-container'>
+      <Navbar/>
+      
+      <div className='projects-content'>
+        <div className='page-header'>
+          <h2>Projects</h2>
+          <button className='create-btn' onClick={openCreateModal} >+ New Project</button>
         </div>
 
-        {/* Projects Grid */}
-        {projects.length === 0 ? (
-          <div className='bg-white rounded-xl p-16 text-center text-gray-400 shadow-sm'>
-            <p className='text-lg'>No projects yet</p>
-            <p className='text-sm mt-1'>Click "New Project" to create one</p>
-          </div>
+       {projects.length === 0 ? (
+         <div className='empty-state'>No projects found. Create one!</div>
         ) : (
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-            {projects.map(p => (
-              <div key={p.id} className='bg-white rounded-xl shadow-sm hover:shadow-md transition p-6'>
+          <div className='grid'>
 
-                {/* Project Name */}
-                <div className='flex justify-between items-start mb-4'>
-                  <h3 className='text-lg font-semibold text-gray-800'>{p.name}</h3>
-                  <div className='flex gap-2'>
+
+            {projects.map(p => (
+              <div key={p.id} className='card'>
+                <div className='card-header'>
+                  <h3><b>{p.name}</b></h3>
+                    
+                  <div className='actions'>
                     <button
-                      onClick={() => openEditModal(p)}
-                      className='text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1 rounded-lg transition'
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(p.id)}
-                      className='text-xs bg-red-50 hover:bg-red-100 text-red-500 px-3 py-1 rounded-lg transition'
-                    >
+                        className='edit-btn'
+                          onClick={() => openEditModal(p)}
+                       >
+                          Edit
+                        </button>
+                        <button
+                      className='delete-btn'
+                      onClick={() => handleDelete(p.id)}>
                       Delete
                     </button>
                   </div>
                 </div>
 
-                {/* Dates */}
-                <div className='space-y-1 mb-4'>
-                  <p className='text-xs text-gray-500'>
-                    📅 Start: <span className='text-gray-700'>{new Date(p.startDate).toLocaleDateString()}</span>
-                  </p>
-                  <p className='text-xs text-gray-500'>
-                    📅 End: <span className='text-gray-700'>{new Date(p.endDate).toLocaleDateString()}</span>
-                  </p>
-                </div>
+                 {/* Description */}
+                {p.description && (
+                  <p className='project-description'>{p.description}</p>
+                )}
 
-                {/* View Tasks Button */}
-                <button
-                  onClick={() => navigate(`/projects/${p.id}/tasks`)}
-                  className='w-full mt-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 text-sm font-medium py-2 rounded-lg transition'
-                >
+                <br/>
+
+                    <p>📅 Start: {new Date(p.startDate).toLocaleDateString()}</p>
+                <p>📅 End: {new Date(p.endDate).toLocaleDateString()}</p>
+                  <button
+                  className='view-tasks-btn'
+                  onClick={() => navigate(`/projects/${p.id}/tasks`)}>
                   View Tasks →
                 </button>
-
-              </div>
+                  </div>
             ))}
+
           </div>
         )}
       </div>
 
-      {/* Modal */}
+
+      {/* this modal is used by both edit and create project  if edit project= null -> create mode ->POST/project
+      else edit project = {id ,....} ->edit mode -> put/project/{id} */}
+     
+    {/* Modal */}
       {showModal && (
-        <div
-          className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'
-          onClick={() => setShowModal(false)}
-        >
-          <div
-            className='bg-white rounded-xl p-8 w-full max-w-md shadow-xl'
-            onClick={e => e.stopPropagation()}
-          >
-            <h3 className='text-xl font-semibold text-gray-800 mb-6'>
-              {editProject ? 'Edit Project' : 'Create New Project'}
-            </h3>
+        <div className='modal-overlay' onClick={() => setShowModal(false)}>
+          <div className='modal' onClick={e => e.stopPropagation()}>
 
-            {error && (
-              <div className='bg-red-50 text-red-600 text-sm px-4 py-3 rounded-lg mb-4'>
-                {error}
-              </div>
-            )}
+            {/* this line creates the switch between the edit and create project */}
+            <h3>{editProject ? 'Edit Project' : 'Create New Project'}</h3>
 
-            <form onSubmit={handleSubmit} className='space-y-4'>
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>
-                  Project Name
-                </label>
+            {error && <div className='error-message'>{error}</div>}
+
+            <form onSubmit={handleSubmit}>
+              <div className='form-group'>
+                <label>Project Name</label>
                 <input
                   type='text'
                   name='name'
@@ -198,52 +178,50 @@ const Projects = () => {
                   onChange={handleChange}
                   placeholder='Enter project name'
                   required
-                  className='w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-indigo-500'
                 />
               </div>
 
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>
-                  Start Date
-                </label>
+              <div className='form-group'>
+                <label>Description</label>
+                <textarea
+                  name='description'
+                  value={form.description}
+                  onChange={handleChange}
+                  placeholder='Enter project description'
+                  rows={3}
+                />
+              </div>
+
+              <div className='form-group'>
+                <label>Start Date</label>
                 <input
                   type='date'
                   name='startDate'
                   value={form.startDate}
                   onChange={handleChange}
                   required
-                  className='w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-indigo-500'
                 />
               </div>
 
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-1'>
-                  End Date
-                </label>
+              <div className='form-group'>
+                <label>End Date</label>
                 <input
                   type='date'
                   name='endDate'
                   value={form.endDate}
                   onChange={handleChange}
                   required
-                  className='w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-indigo-500'
                 />
               </div>
 
-              <div className='flex justify-end gap-3 pt-2'>
-                <button
-                  type='button'
-                  onClick={() => setShowModal(false)}
-                  className='px-5 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition'
-                >
+              <div className='modal-actions'>
+                <button type='button' className='cancel-btn' onClick={() => setShowModal(false)}>
                   Cancel
                 </button>
-                <button
-                  type='submit'
-                  disabled={submitting}
-                  className='px-5 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition disabled:opacity-60'
-                >
-                  {submitting ? 'Saving...' : editProject ? 'Update' : 'Create'}
+
+
+                <button type='submit' className='submit-btn'>
+                  {editProject ? 'Update' : 'Create'}
                 </button>
               </div>
             </form>

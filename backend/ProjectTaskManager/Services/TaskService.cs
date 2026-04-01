@@ -196,4 +196,11 @@ private async Task NotifyDependentTaskAssignees(ProjectTasks completedTask)
         );
     }
 }
+
+public async Task<List<ProjectTasks>> GetTasksByUserIdAsync(int userId)
+{
+    return await context.tasks
+        .Where(t => t.AssigneeId == userId)
+        .ToListAsync();
+}
 }

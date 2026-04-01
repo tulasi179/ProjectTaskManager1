@@ -1,3 +1,6 @@
+import api from "../../api/axios"
+import { Navigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 const ProjectsSection = ({ projects, navigate }) => {
   return (
     <div className='bg-white rounded-xl shadow-sm p-6 mb-6'>

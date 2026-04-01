@@ -4,14 +4,15 @@ import { useAuth } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import api from '../../api/axios'
 
-import StatCard from '../admin/StatCard'
+import StatCard from '../admin/Statcard'
 import TasksTable from '../admin/TasksTable'
+import Projects from '../admin/Projects'
 
 const UserDashboard = () => {
     const {user , authLoading} =useAuth()
     const navigate = useNavigate()
 
-   
+    const [projects, setProjects] = useState([])
     const [tasks, setTasks] = useState([])
     const [notifications, setNotifications] = useState([])
     const [loading, setLoading] = useState(true)//default true..
@@ -24,20 +25,25 @@ const UserDashboard = () => {
         return
       }
       fetchAll()
-    }, [authLoading])
+    }, [authLoading, user, navigate])
 
       const fetchAll= async () => {
+         //console.log('Token in storage:', localStorage.getItem('token')) -> debugging
         try{
-          const [tasksRes, notifRes] = await Promise.all([
+          const [tasksRes ,notifRes , projectsRes] = await Promise.all([
             api.get('/task/my'),
-            api.get('/notification/my')
+            api.get('/notification/my'),
+            api.get('/project')
           ]) 
+          //console.log("Tasks API:", tasksRes.data) ->debugging
 
           const taskData = tasksRes.data.data
           const  notifData = notifRes.data.data
+          const projectsData = projectsRes.data.data || projectsRes.data
 
           setTasks(Array.isArray(taskData) ? taskData: [])
-          setNotifications(Array.isArray(notifRes) ? notifdata : [])
+          setNotifications(Array.isArray(notifData) ? notifData : [])
+          setProjects(Array.isArray(projectsData) ? projectsData : [])
         }
         catch (err)
         {
@@ -71,6 +77,11 @@ const UserDashboard = () => {
       ]
       
 
+
+      // get only the project that the user is assigned to.
+       const userProjectIds = [...new Set(tasks.map(t => t.projectId))]
+       const userProjects = projects.filter(p => userProjectIds.includes(p.id))
+
   return (
      <div className='min-h-screen bg-gray-100'>
       <Navbar />
@@ -89,12 +100,35 @@ const UserDashboard = () => {
         </div>
 
         {/* Stat Cards */}
-        <div className='grid grid-cols-2 md:grid-cols-5 gap-4 mb-8'>
+        <div className='grid grid-cols-4 md:grid-cols-5 gap-4 mb-8'>
           {cards.map(card => (
             <StatCard key={card.label} {...card} />
           ))}
         </div>
 
+
+      {/* Project Descriptions */}
+        {userProjects.length > 0 && (
+          <div className='mb-6'>
+            <h3 className='text-lg font-semibold text-gray-800 mb-3'>My Projects</h3>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+              {userProjects.map(p => (
+                <div key={p.id} className='bg-white rounded-xl shadow-sm p-5 border-l-4 border-indigo-500'>
+                  <h4 className='font-semibold text-gray-800'>{p.name}</h4>
+                  {p.description && (
+                    <p className='text-sm text-gray-500 mt-1'>{p.description}</p>
+                  )}
+                  <div className='flex gap-4 mt-2 text-xs text-gray-400'>
+                    <span>📅 Start: {new Date(p.startDate).toLocaleDateString()}</span>
+                    <span>📅 End: {new Date(p.endDate).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+          
+         <TasksTable tasks={tasks} role="User" onStatusUpdate={fetchAll} />
 
       </div>
     </div>

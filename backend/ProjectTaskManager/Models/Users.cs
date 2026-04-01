@@ -13,6 +13,7 @@ public class Users
     public string? RefreshToken {get; set;}
     public DateTime? RefreshTokenExpiryTime {get; set; }
 
+
     // // Navigation properties
      public ICollection<Project> OwnedProjects { get; set; } = new List<Project>();
     public ICollection<ProjectTasks> AssignedTasks { get; set; } = new List<ProjectTasks>();

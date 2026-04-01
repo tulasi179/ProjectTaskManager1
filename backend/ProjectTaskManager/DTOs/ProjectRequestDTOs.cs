@@ -10,6 +10,7 @@ public class ProjectRequestDTOs
 
     [Required]
     public int OwnerId { get; set; }
+     public string? Description { get; set; }
 
     [Required]
     public DateTime StartDate { get; set; } = DateTime.Now;

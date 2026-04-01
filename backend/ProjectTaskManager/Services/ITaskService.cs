@@ -34,5 +34,7 @@ namespace Projecttaskmanager.Services
 
     Task<List<ProjectTasks>> GetBlockingTasksAsync(int taskId);
 
+    Task<List<ProjectTasks>> GetTasksByUserIdAsync(int userId);
+
     }
 }

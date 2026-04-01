@@ -9,6 +9,8 @@ public class Project
    public int Id { get; set; }
     public string Name { get; set; } = null!;
 
+    public string? Description { get; set; } 
+
     [Required]
     public int OwnerId { get; set; }
     public DateTime StartDate { get; set; } = DateTime.Now;

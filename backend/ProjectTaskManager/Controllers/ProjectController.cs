@@ -30,6 +30,7 @@ public class ProjectController(IProjectService service) : ControllerBase
         {
             Name = dto.Name,
             OwnerId = dto.OwnerId,
+            Description = dto.Description,
             StartDate = dto.StartDate,
             EndDate = dto.EndDate
         };
@@ -39,6 +40,7 @@ public class ProjectController(IProjectService service) : ControllerBase
             Id = created.Id,
             Name = created.Name,
             OwnerId = created.OwnerId,
+            Description = created.Description, 
             StartDate = created.StartDate,
             EndDate = created.EndDate
         });
@@ -52,6 +54,7 @@ public class ProjectController(IProjectService service) : ControllerBase
         {
             Name = dto.Name,
             OwnerId = dto.OwnerId,
+            Description = dto.Description,
             StartDate = dto.StartDate,
             EndDate = dto.EndDate
         };

@@ -113,7 +113,7 @@ const AdminDashboard = () => {
         <ProjectsSection projects={projects} navigate={navigate} />
 
         {/* Tasks */}
-        <TasksTable tasks={tasks} users={users} />
+        <TasksTable tasks={tasks} users={users} role="Admin" />
 
       </div>
     </div>

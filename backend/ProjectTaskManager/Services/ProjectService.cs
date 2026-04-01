@@ -43,6 +43,7 @@ public class ProjectService(AppDbContext context) :IProjectService
 
         pro.Name = project.Name;
         pro.OwnerId = project.OwnerId;
+        pro.Description = project.Description;
         pro.EndDate = project.EndDate;
          
          await context.SaveChangesAsync();

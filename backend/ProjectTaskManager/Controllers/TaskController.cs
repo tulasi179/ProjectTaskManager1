@@ -25,6 +25,15 @@ public class TaskController(ITaskService service) : ControllerBase
        return Ok(task);
     }
 
+
+    [Authorize(Roles = "User")]
+    [HttpGet("my")]
+    public async Task<ActionResult> GetMyTasks()
+    {
+        var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var tasks = await service.GetTasksByUserIdAsync(currentUserId);
+        return Ok(new { data = tasks });
+    }
     // Both Admin and User can view tasks by project
     // but User only sees tasks assigned to them
     [HttpGet("project/{id}")]
