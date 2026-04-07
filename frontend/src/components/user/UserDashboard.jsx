@@ -113,7 +113,7 @@ const UserDashboard = () => {
             <h3 className='text-lg font-semibold text-gray-800 mb-3'>My Projects</h3>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
               {userProjects.map(p => (
-                <div key={p.id} className='bg-white rounded-xl shadow-sm p-5 border-l-4 border-indigo-500'>
+                <div key={p.id} className='bg-white rounded-xl shadow-sm p-5 border-l-4 border-indigo-500  onClick={() => navigate(`/projects/${p.id}/tasks`)}'>
                   <h4 className='font-semibold text-gray-800'>{p.name}</h4>
                   {p.description && (
                     <p className='text-sm text-gray-500 mt-1'>{p.description}</p>

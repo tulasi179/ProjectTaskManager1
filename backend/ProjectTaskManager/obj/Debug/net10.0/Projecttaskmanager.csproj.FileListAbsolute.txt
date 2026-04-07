@@ -724,3 +724,6 @@ C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\Proje
 C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskmanager\obj\Debug\net10.0\Projecttaskmanager.pdb
 C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskmanager\obj\Debug\net10.0\Projecttaskmanager.genruntimeconfig.cache
 C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskmanager\obj\Debug\net10.0\ref\Projecttaskmanager.dll
+C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\bin\Debug\net10.0\BouncyCastle.Cryptography.dll
+C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\bin\Debug\net10.0\MailKit.dll
+C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\bin\Debug\net10.0\MimeKit.dll

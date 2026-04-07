@@ -6,9 +6,10 @@ const TasksTable = ({ tasks, users = [], role = 'Admin', onStatusUpdate }) => {
     const nextStatus = currentStatus === 'Pending' ? 'InProgress' : 'Completed'
 
     try {
-      await api.patch(`/task/${taskId}/status`, { status: nextStatus })
+      await api.patch(`/task/${taskId}/status`, { Status: nextStatus })
       onStatusUpdate() // refetch tasks from parent
     } catch (err) {
+        console.log(err.response?.data)
       console.log(err)
     }
   }

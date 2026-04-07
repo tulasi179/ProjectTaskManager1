@@ -121,6 +121,20 @@ public async Task<IActionResult> UpdateTaskStatus(int id, TaskStatusUpdateDto dt
 }
 
 
+
+[Authorize(Roles = "Admin")]
+[HttpPut("{id}")]
+public async Task<IActionResult> UpdateTask(int id, TaskRequestDto dto)
+{
+    var existing = await service.GetTasksByIdAsync(id);
+    existing.Title = dto.Title;
+    existing.Description = dto.Description;
+    existing.AssigneeId = dto.AssigneeId;
+    await service.UpdateTaskAsync(id, existing);
+    return Ok("Task updated successfully");
+}
+
+
     [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTask(int id)
