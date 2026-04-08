@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8hF+viewy8Y=",
+  "dgSpecHash": "sh2MKg623k4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\ProjectTaskManager\\Projecttaskmanager.csproj",
+  "projectFilePath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\Projecttaskmanager.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
