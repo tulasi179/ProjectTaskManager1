@@ -7,10 +7,11 @@ import AdminDashboard from './components/admin/AdminDashboard'
 import UserDashboard from './components/user/UserDashboard'
 import { AuthProvider } from './context/AuthContext'
 import './App.css'
-import Notifications from './Notifications'
+
 import Projects from './components/admin/Projects'
 import ProjectTasks from './components/admin/ProjectTasks' 
 import { useAuth } from './context/AuthContext'
+import Notifications from './components/user/Notifications'
 
 
  const App = () => {
@@ -28,7 +29,7 @@ import { useAuth } from './context/AuthContext'
             <Route path='/userdashboard' element={<UserDashboard />} />
             <Route path='/projects' element={<Projects/>}/>
             <Route path='/projects/:id/tasks' element={<ProjectTasks/>}/>
-
+        
             <Route path='*' element={<Navigate to='/login' />} />
           {/* unknown url will route to login */}
         </Routes>

@@ -64,3 +64,224 @@ body {
 .logout-btn:hover {
   background: #dc2626;
 }
+
+
+/* Profile Modal */
+.profile-modal {
+  max-width: 420px;
+  width: 100%;
+  padding: 28px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.profile-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #6946e5;
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.profile-role-badge {
+  background: #ede9fe;
+  color: #6946e5;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+.modal-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.modal-close:hover {
+  color: #1f2937;
+}
+
+/* Profile Info Fields */
+.profile-info {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.profile-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.profile-field:last-child {
+  border-bottom: none;
+}
+
+.profile-field label {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.profile-field span {
+  font-size: 13px;
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.active-status {
+  color: #16a34a;
+  font-size: 13px;
+}
+
+.inactive-status {
+  color: #dc2626;
+  font-size: 13px;
+}
+
+.profile-loading {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Change Password */
+.change-pw-toggle {
+  width: 100%;
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.change-pw-toggle:hover {
+  background: #e5e7eb;
+}
+
+.pw-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pw-form .form-group {
+  margin-bottom: 0;
+}
+
+.pw-form .form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.pw-form .form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  color: #333;
+}
+
+.pw-form .form-group input:focus {
+  border-color: #6946e5;
+  box-shadow: 0 0 0 3px rgba(105, 70, 229, 0.1);
+}
+
+.pw-success {
+  background: #dcfce7;
+  color: #16a34a;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.error-message {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.submit-btn {
+  background: #6946e5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
+}
+
+.submit-btn:hover {
+  background: #5735c7;
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Notification badge */
+.notif-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.notif-badge {
+  background: #ef4444;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 999px;
+  line-height: 1;
+}

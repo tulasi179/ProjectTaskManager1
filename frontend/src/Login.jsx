@@ -1,7 +1,5 @@
 import { useNavigate , Link} from 'react-router-dom'
 import api from './api/axios'
-import UserDashboard from './components/user/UserDashboard'
-import AdminDashboard from './components/admin/AdminDashboard'
 import React, { useState } from 'react'
 import { useAuth } from './context/AuthContext'
 import './Login.css'
@@ -49,8 +47,9 @@ const Login = () => {
                 navigate('/admindashboard')
             else
                 navigate('/userdashboard')
-        } catch(err){
-                setError(err.response?.data || 'invalid username or password.')
+        } catch(err) {
+        const msg = err.response?.data
+        setError(typeof msg === 'string' ? msg : 'Invalid username or password.')
         } finally{
                 setLoading(false)
         }
