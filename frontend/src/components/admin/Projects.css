@@ -3,16 +3,16 @@
   background: #f0f2f5;
 }
 
-.navbar {
+/* .navbar {
   background: #1a1a2e;
   color: white;
   padding: 16px 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
+} 
 
-.navbar h1 { font-size: 18px; font-weight: 600; }
+ .navbar h1 { font-size: 18px; font-weight: 600; }
 
 .nav-links {
   display: flex;
@@ -40,7 +40,7 @@
   font-size: 13px;
 }
 
-.logout-btn:hover { background: #dc2626; }
+.logout-btn:hover { background: #dc2626; } */
 
 .projects-content {
   padding: 32px;

@@ -1,4 +1,3 @@
-import React from 'react'
 import Register from './Register'
 import Login from './Login'
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
@@ -6,12 +5,10 @@ import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 import AdminDashboard from './components/admin/AdminDashboard'
 import UserDashboard from './components/user/UserDashboard'
 import { AuthProvider } from './context/AuthContext'
-import './App.css'
-
 import Projects from './components/admin/Projects'
 import ProjectTasks from './components/admin/ProjectTasks' 
-import { useAuth } from './context/AuthContext'
 import Notifications from './components/user/Notifications'
+import './App.css'
 
 
  const App = () => {

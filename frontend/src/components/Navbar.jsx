@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useState, useEffect } from 'react'
 import api from '../api/axios'
@@ -9,29 +9,31 @@ function Navbar() {
   const navigate = useNavigate()
 
   const [unreadCount, setUnreadCount] = useState(0)
+
   const [showProfile, setShowProfile] = useState(false)
   const [profileData, setProfileData] = useState(null)
   const [loadingProfile, setLoadingProfile] = useState(false)
   const [showChangePassword, setShowChangePassword] = useState(false)
+
   const [pwForm, setPwForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' })
   const [pwError, setPwError] = useState('')
   const [pwSuccess, setPwSuccess] = useState('')
   const [pwLoading, setPwLoading] = useState(false)
 
-  // useEffect MUST be before any early return
+  // useeffect must be before any  return statements
   useEffect(() => {
     if (user?.role === 'User') {
       fetchUnreadCount()
     }
   }, [user])
 
-  // if no user, return null AFTER all hooks
+ 
   if (!user) return null
 
   const fetchUnreadCount = async () => {
     try {
       const res = await api.get('/notification/my')
-      const data = res.data.data || res.data
+      const data = res.data.data || res.data //just res.data is enough
       const unread = Array.isArray(data) ? data.filter(n => !n.readStatus) : []
       setUnreadCount(unread.length)
     } catch (err) {
@@ -89,6 +91,7 @@ function Navbar() {
         newPassword: pwForm.newPassword
       })
       setPwSuccess('Password changed successfully!')
+      //empty again.
       setPwForm({ currentPassword: '', newPassword: '', confirmPassword: '' })
       setShowChangePassword(false)
     } catch (err) {
@@ -128,16 +131,20 @@ function Navbar() {
             style={{ cursor: 'pointer' }}>
             👤 {user?.username}
           </span>
+
           <button onClick={handleLogout} className='logout-btn'>Logout</button>
+
         </div>
       </nav>
 
-      {/* Profile Modal */}
+      {/*profile modal */}
       {showProfile && (
         <div className='modal-overlay' onClick={() => setShowProfile(false)}>
+          {/* //clicking background closes the modal */}
           <div className='modal profile-modal' onClick={e => e.stopPropagation()}>
+            {/* //clicking modal doesnt closes the modal */}
 
-            {/* Header */}
+            {/* header */}
             <div className='profile-header'>
               <div className='profile-avatar'>
                 {user.username?.charAt(0).toUpperCase()}
@@ -149,27 +156,27 @@ function Navbar() {
               <button className='modal-close' onClick={() => setShowProfile(false)}>✕</button>
             </div>
 
-            {/* Profile Info */}
+            {/* profile info */}
             {loadingProfile ? (
               <p className='profile-loading'>Loading...</p>
             ) : profileData ? (
               <div className='profile-info'>
                 <div className='profile-field'>
                   <label>Username</label>
-                  <span>{profileData.username || profileData.Username}</span>
+                  <span>{profileData.username }</span>
                 </div>
                 <div className='profile-field'>
                   <label>Email</label>
-                  <span>{profileData.email || profileData.Email}</span>
+                  <span>{profileData.email }</span>
                 </div>
                 <div className='profile-field'>
                   <label>Role</label>
-                  <span>{profileData.role || profileData.Role}</span>
+                  <span>{profileData.role}</span>
                 </div>
               </div>
             ) : null}
 
-            {/* Change Password Toggle */}
+            {/* change Pass */}
             <button
               className='change-pw-toggle'
               onClick={() => {
@@ -182,7 +189,7 @@ function Navbar() {
 
             {pwSuccess && <div className='pw-success'>{pwSuccess}</div>}
 
-            {/* Change Password Form */}
+            {/* change Pass form */}
             {showChangePassword && (
               <form onSubmit={handleChangePassword} className='pw-form'>
                 {pwError && <div className='error-message'>{pwError}</div>}
