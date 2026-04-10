@@ -14,11 +14,21 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<ProjectTasks> tasks => Set<ProjectTasks>();
     public DbSet<TaskDependency> dependent => Set<TaskDependency>();
     public DbSet<Notification> notify => Set<Notification>();
+    public DbSet<OtpCode> OtpCodes => Set<OtpCode>();
 
 
 //to create composite key...
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        //otp
+        modelBuilder.Entity<OtpCode>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e =>e.Email).IsRequired().HasMaxLength(255);
+            entity.Property(e =>e.Code).IsRequired().HasMaxLength(6);
+            entity.Property(e =>e.Purpose).IsRequired().HasMaxLength(50);
+        });
         //  TaskDependency composite PK
         modelBuilder.Entity<TaskDependency>()
             .HasKey(td => new { td.TaskId, td.DependentTaskId });

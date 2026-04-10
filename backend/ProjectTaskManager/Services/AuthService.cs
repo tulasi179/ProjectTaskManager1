@@ -134,5 +134,17 @@ public class AuthService(AppDbContext context , IConfiguration configuration) :I
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
 
+        public async Task ResetPasswordAsync(ResetPasswordDto dto)
+        {
+            var user = await context.User
+                .FirstOrDefaultAsync(u => u.Email == dto.Email);
+
+            if (user is null)
+                throw new KeyNotFoundException("User not found.");
+
+            user.PasswordHash = new PasswordHasher<Users>().HashPassword(user, dto.NewPassword);
+            await context.SaveChangesAsync();
+        }
+
        
 }

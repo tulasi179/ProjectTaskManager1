@@ -1,6 +1,6 @@
 import { useNavigate , Link} from 'react-router-dom'
 import api from './api/axios'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useAuth } from './context/AuthContext'
 import './Login.css'
 
@@ -89,6 +89,12 @@ const Login = () => {
                     required
                     />
                 </div>
+
+                <p style={{ textAlign: 'right', marginBottom: '10px' }}>
+                    <Link to='/forgot-password' style={{ color: '#4f46e5', fontSize: '0.875rem' }}>
+                        Forgot Password?
+                    </Link>
+                </p>
 
 
                 <button type='submit' className='login-btn' disabled={loading}>

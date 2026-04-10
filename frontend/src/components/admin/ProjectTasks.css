@@ -339,5 +339,7 @@
 
 .dep-graph-scroll {
   overflow-x: auto;
-  padding-bottom: 8px;
+  overflow-y: visible;
+  padding-bottom: 100px;
+  width:100%
 }

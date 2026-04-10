@@ -28,20 +28,31 @@ const DependencyGraph = ({ tasks, dependencies, users }) => {
     columns[col].push(t)
   })
 
+  const maxArcOverflow = dependencies.reduce((max, dep) => {
+  const fromDepth = depths[dep.taskId]
+  const toDepth = depths[dep.dependentTaskId]
+  const colSpan = toDepth - fromDepth
+  if (colSpan > 1) {
+    return Math.max(max, colSpan * 30)
+  }
+  return max
+}, 0)
+
   const positions = {}
+  const TOP_PADDING =60
   for (let col = 0; col <= maxDepth; col++) {
     const colTasks = columns[col] || []
     colTasks.forEach((t, row) => {
       positions[t.id] = {
         x: col * (NODE_W + COL_GAP) + 20,
-        y: row * (NODE_H + ROW_GAP) + 20
+        y: row * (NODE_H + ROW_GAP) + 20+ TOP_PADDING
       }
     })
   }
 
   const maxRows = Math.max(...Object.values(columns).map(c => c.length), 1)
   const svgW = (maxDepth + 1) * (NODE_W + COL_GAP) + 20
-  const svgH = maxRows * (NODE_H + ROW_GAP) + 20
+  const svgH = maxRows * (NODE_H + ROW_GAP) + 20 + maxArcOverflow + 20
 
   const isBlocked = (taskId) => {
     const blockers = dependencies.filter(d => d.dependentTaskId === taskId).map(d => d.taskId)
@@ -72,7 +83,7 @@ const DependencyGraph = ({ tasks, dependencies, users }) => {
         </defs>
 
         {/* edges first so nodes render on top */}
-        {dependencies.map((dep, i) => {
+       {dependencies.map((dep, i) => {
           const from = positions[dep.taskId]
           const to = positions[dep.dependentTaskId]
           if (!from || !to) return null
@@ -81,10 +92,24 @@ const DependencyGraph = ({ tasks, dependencies, users }) => {
           const x2 = to.x
           const y2 = to.y + NODE_H / 2
           const mx = (x1 + x2) / 2
+
+          // Span check: arc upward for edges that skip columns
+          const fromDepth = depths[dep.taskId]
+          const toDepth = depths[dep.dependentTaskId]
+          const colSpan = toDepth - fromDepth
+
+          let d
+          if (colSpan > 1) {
+            const arcOffset = (colSpan * 30) // curves downward above intermediate nodes
+            d = `M${x1},${y1} C${mx},${y1 + arcOffset} ${mx},${y2 + arcOffset} ${x2},${y2}`
+          } else {
+            d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`
+          }
+
           return (
             <path
               key={i}
-              d={`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`}
+              d={d}
               fill='none'
               stroke='#6946e5'
               strokeWidth='1.5'
@@ -94,7 +119,6 @@ const DependencyGraph = ({ tasks, dependencies, users }) => {
             />
           )
         })}
-
         {/* nodes */}
         {tasks.map(t => {
           const pos = positions[t.id]

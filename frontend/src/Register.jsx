@@ -1,6 +1,7 @@
 import api from './api/axios'
 import React, { useState } from 'react'
 import Login from './Login'
+import OtpVerification from './OtpVerification'
 import {useNavigate, Link} from 'react-router-dom'
 import './Register.css'
 
@@ -14,6 +15,7 @@ const Register = () => {
     })
     const [error, setError] = useState('')
     const [loading, setLoading]=useState(false)//while handling the request
+     const [showOtp, setShowOtp] = useState(false)//otp handling
     const navigate = useNavigate()// to navigate to other pages after registering
 
     const handleChange = (e) => {
@@ -23,16 +25,39 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
+        setError('')
 
-        try{
+        try {
+            // Step 1 — register the user
             await api.post('/auth/register', form)
-            navigate('/login')
-        }catch(err) {
+
+            // Step 2 — send OTP to their email
+            await api.post('/otp/send', {
+                email: form.email,
+                purpose: 'registration'
+            })
+
+            // Step 3 — show OTP screen 
+            setShowOtp(true)
+
+        } catch (err) {
             setError(err.response?.data || 'Registration failed. Please try again.')
-        } finally{
+        } finally {
             setLoading(false)
         }
     }
+
+      // if OTP screen is active, show it instead of the form
+    if (showOtp) {
+        return (
+            <OtpVerification
+                email={form.email}
+                purpose="registration"
+                onSuccess={() => navigate('/login')}
+            />
+        )
+    }
+
   return (
     <div className='register-container'>
         <div className='register-box'>

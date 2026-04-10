@@ -96,4 +96,19 @@ public class UsersServices(AppDbContext context) : IUsersService
     user.PasswordHash = hasher.HashPassword(user, dto.NewPassword);
     await context.SaveChangesAsync();
 }
+
+public async Task ResetPasswordAsync(ResetPasswordDto dto)
+{
+    var user = await context.User
+        .FirstOrDefaultAsync(u => u.Email == dto.Email);
+
+    if (user is null)
+        throw new KeyNotFoundException("User not found.");
+
+    var hasher = new PasswordHasher<Users>();
+    user.PasswordHash = hasher.HashPassword(user, dto.NewPassword);
+    await context.SaveChangesAsync();
+}
+
+
 }

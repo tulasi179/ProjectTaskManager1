@@ -8,6 +8,8 @@ import { AuthProvider } from './context/AuthContext'
 import Projects from './components/admin/Projects'
 import ProjectTasks from './components/admin/ProjectTasks' 
 import Notifications from './components/user/Notifications'
+import OtpVerification from './OtpVerification'
+import ForgotPassword from './ForgotPassword'
 import './App.css'
 
 
@@ -26,6 +28,7 @@ import './App.css'
             <Route path='/userdashboard' element={<UserDashboard />} />
             <Route path='/projects' element={<Projects/>}/>
             <Route path='/projects/:id/tasks' element={<ProjectTasks/>}/>
+            <Route path='/forgot-password' element={<ForgotPassword />} />
         
             <Route path='*' element={<Navigate to='/login' />} />
           {/* unknown url will route to login */}

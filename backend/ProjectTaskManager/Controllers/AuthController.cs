@@ -64,5 +64,13 @@ namespace Projecttaskmanager.Controllers
             return Ok("You are Admin!");
         }
 
+       [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+        {
+            await authService.ResetPasswordAsync(dto);
+            return Ok(new { message = "Password reset successfully." });
+        }
+
     }
+
 }
