@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Projecttaskmanager.Middleware;
 using System.Text;
+using Projecttaskmanager.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //until it return the final request
 builder.Services.AddScoped<IUsersService, UsersServices>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+// Add this with your other service registrations
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>(); 
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<ITaskDependencyRepository, TaskDependencyRepository>();
+
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<ITaskDependencyService, TaskDependencyService>();

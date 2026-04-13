@@ -1,57 +1,46 @@
-using Projecttaskmanager.Data;
-using Projecttaskmanager.Models;
-using Microsoft.EntityFrameworkCore;
 using Projecttaskmanager.DTOs;
+using Projecttaskmanager.Models;
+using Projecttaskmanager.Repositories;
+
 namespace Projecttaskmanager.Services;
 
-public class NotificationService(AppDbContext context) : INotificationService
+public class NotificationService(INotificationRepository repo, IUserRepository userRepo) : INotificationService
 {
-    
     public async Task CreateNotification(int userId, string Message)
     {
         var notification = new Notification
         {
             UserId = userId,
             message = Message,
-            CreatedAt = DateTime.UtcNow  
+            CreatedAt = DateTime.UtcNow
         };
 
-        context.notify.Add(notification);
-        await context.SaveChangesAsync();
+        await repo.AddAsync(notification);
+        await repo.SaveChangesAsync();
     }
 
-    public async Task<List<Notification>>  GetUserNotifications(int userId)
+    public async Task<List<Notification>> GetUserNotifications(int userId)
     {
-        var user = await context.User.FindAsync(userId);
+        var user = await userRepo.GetEntityByIdAsync(userId);
         if (user is null)
             throw new KeyNotFoundException($"User with Id {userId} was not found.");
-        return await context.notify
-            .Where(n => n.UserId == userId)
-            .ToListAsync();
+
+        return await repo.GetByUserIdAsync(userId);
     }
 
     public async Task<List<NotificationResponseDto>> GetAllUserNotification()
-         => await context.notify.Select(c => new NotificationResponseDto
-     {
-        Id  = c.Id,
-         UserId = c.UserId,
-         Message = c.message
-
-     }).ToListAsync();
+        => await repo.GetAllAsync();
 
     public async Task MarkAsReadAsync(int notificationId, int userId)
     {
-        var notification = await context.notify
-            .FirstOrDefaultAsync(n => n.Id == notificationId);
-
+        var notification = await repo.GetByIdAsync(notificationId);
         if (notification is null)
             throw new KeyNotFoundException($"Notification with Id {notificationId} was not found.");
 
-        // Users can only mark their own notifications as read
         if (notification.UserId != userId)
             throw new UnauthorizedAccessException("You can only mark your own notifications as read.");
 
         notification.ReadStatus = true;
-        await context.SaveChangesAsync();
+        await repo.SaveChangesAsync();
     }
 }

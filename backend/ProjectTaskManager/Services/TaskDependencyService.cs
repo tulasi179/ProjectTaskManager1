@@ -1,64 +1,15 @@
-// using Microsoft.EntityFrameworkCore;
-
-// using Projecttaskmanager.Data;
-// using Projecttaskmanager.Models;
-
-// namespace Projecttaskmanager.Services;
-
-// public class TaskDependencyService(AppDbContext context) : ITaskDependencyService
-// {
-//     public async Task<List<TaskDependency>> GetDependencies()
-//         => await context.dependent.ToListAsync();
-
-//     public async Task<List<TaskDependency>> GetDependentTasksById(int taskId)
-//         => await context.dependent
-//             .Where(d => d.TaskId == taskId)
-//             .ToListAsync();
-
-//     public async Task<TaskDependency> AddDependency(TaskDependency dependency)
-//     {
-//         context.dependent.Add(dependency);
-//         await context.SaveChangesAsync();
-//         return dependency;
-       
-//     }
-
-//     public async Task<bool> RemoveDependency(int taskId, int dependentTaskId)
-//     {
-//         var dependency = await context.dependent
-//             .FirstOrDefaultAsync(d =>
-//                 d.TaskId == taskId &&
-//                 d.DependentTaskId == dependentTaskId);
-
-//         if (dependency == null)
-//             return false;
-
-//         context.dependent.Remove(dependency);
-//         await context.SaveChangesAsync();
-
-//         return true;
-//         // throw new NotImplementedException();
-//     }
-// }
-
-
-
-
-using Microsoft.EntityFrameworkCore;
-using Projecttaskmanager.Data;
 using Projecttaskmanager.Models;
+using Projecttaskmanager.Repositories;
 
 namespace Projecttaskmanager.Services;
 
-public class TaskDependencyService(AppDbContext context) : ITaskDependencyService
+public class TaskDependencyService(ITaskDependencyRepository repo) : ITaskDependencyService
 {
     public async Task<List<TaskDependency>> GetDependencies()
-        => await context.dependent.ToListAsync();
+        => await repo.GetAllAsync();
 
     public async Task<List<TaskDependency>> GetDependentTasksById(int taskId)
-        => await context.dependent
-            .Where(d => d.TaskId == taskId)
-            .ToListAsync();
+        => await repo.GetByTaskIdAsync(taskId);
 
     public async Task<(bool Success, string Message, TaskDependency? Data)> AddDependency(TaskDependency dependency)
     {
@@ -71,29 +22,23 @@ public class TaskDependencyService(AppDbContext context) : ITaskDependencyServic
         if (hasCycle)
             return (false, "Adding this dependency would create a circular dependency.", null);
 
-        context.dependent.Add(dependency);
-        await context.SaveChangesAsync();
+        await repo.AddAsync(dependency);
+        await repo.SaveChangesAsync();
         return (true, "Dependency added successfully.", dependency);
     }
 
     public async Task<bool> RemoveDependency(int taskId, int dependentTaskId)
     {
-        var dependency = await context.dependent
-            .FirstOrDefaultAsync(d =>
-                d.TaskId == taskId &&
-                d.DependentTaskId == dependentTaskId);
-
+        var dependency = await repo.GetAsync(taskId, dependentTaskId);
         if (dependency == null)
             return false;
 
-        context.dependent.Remove(dependency);
-        await context.SaveChangesAsync();
+        await repo.RemoveAsync(dependency);
+        await repo.SaveChangesAsync();
         return true;
     }
 
-    // Checks if making TaskId depend on DependentTaskId would create a cycle
-    // starting from DependentTaskId, can we reach TaskId by following dependencies?
-    // If yes adding this link would close the loop → cycle detected
+    // Cycle detection — pure business logic, no DB access directly
     private async Task<bool> WouldCreateCycle(int taskId, int dependentTaskId)
     {
         var visited = new HashSet<int>();
@@ -106,17 +51,13 @@ public class TaskDependencyService(AppDbContext context) : ITaskDependencyServic
             int current = queue.Dequeue();
 
             if (current == taskId)
-                return true; // cycle found
+                return true;
 
             if (!visited.Add(current))
-                continue; // already visited
+                continue;
 
-            // Get all tasks that 'current' depends on and follow the chain
-            var nextDeps = await context.dependent
-                .Where(d => d.TaskId == current)
-                .Select(d => d.DependentTaskId)
-                .ToListAsync();
-
+            // DB access goes through repository
+            var nextDeps = await repo.GetDependentIdChainAsync(current);
             foreach (var next in nextDeps)
                 queue.Enqueue(next);
         }
