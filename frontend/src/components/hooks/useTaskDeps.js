@@ -5,6 +5,7 @@ export const useTaskDeps = (tasks, dependencies, onRefresh) => {
   const [existingDeps, setExistingDeps] = useState([])
   const [selectedDep, setSelectedDep] = useState('')
   const [depError, setDepError] = useState('')
+  const [pendingDeps, setPendingDeps] = useState([])
 
   const isBlocked = (taskId) =>
     dependencies
@@ -27,6 +28,7 @@ export const useTaskDeps = (tasks, dependencies, onRefresh) => {
     }
   }
 
+
   const addDep = async (dependentTaskId) => {
     if (!selectedDep) return
     setDepError('')
@@ -47,6 +49,21 @@ export const useTaskDeps = (tasks, dependencies, onRefresh) => {
     onRefresh()
   }
 
+  const addPendingDep = () => {
+  if (!selectedDep) return
+  if (pendingDeps.includes(selectedDep)) return // no duplicates
+
+  setPendingDeps(prev => [...prev, selectedDep])
+  // Show it visually in the modal
+  setExistingDeps(prev => [...prev, { taskId: parseInt(selectedDep), dependentTaskId: null }])
+  setSelectedDep('')
+}
+
+const clearPendingDeps = () => {
+  setPendingDeps([])
+  setExistingDeps([])
+}
+
   return { existingDeps, selectedDep, setSelectedDep, depError,
-           isBlocked, getBlockingNames, loadDepsForTask, addDep, removeDep }
+           isBlocked, getBlockingNames, loadDepsForTask, addDep, removeDep, pendingDeps, addPendingDep, clearPendingDeps }
 }

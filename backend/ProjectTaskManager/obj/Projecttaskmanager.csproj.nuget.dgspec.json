@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\Projecttaskmanager.csproj": {}
+    "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\ProjectTaskManager\\Projecttaskmanager.csproj": {}
   },
   "projects": {
-    "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\Projecttaskmanager.csproj": {
+    "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\ProjectTaskManager\\Projecttaskmanager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\Projecttaskmanager.csproj",
+        "projectUniqueName": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\ProjectTaskManager\\Projecttaskmanager.csproj",
         "projectName": "Projecttaskmanager",
-        "projectPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\Projecttaskmanager.csproj",
+        "projectPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\ProjectTaskManager\\Projecttaskmanager.csproj",
         "packagesPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\obj\\",
+        "outputPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\ProjectTaskManager\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -62,7 +62,7 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[10.0.3, )"
+              "version": "[10.0.5, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -70,9 +70,13 @@
               "target": "Package",
               "version": "[10.0.3, )"
             },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[10.0.3, )"
+              "version": "[10.0.5, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -82,7 +86,7 @@
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[18.3.0, )"
+              "version": "[18.4.0, )"
             },
             "Scalar.AspNetCore": {
               "target": "Package",

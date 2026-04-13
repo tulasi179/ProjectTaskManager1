@@ -1,0 +1,53 @@
+/* AdminDashboard.css */
+.dashboard-wrapper {
+  min-height: 100vh;
+  background: #f5f6fa;
+}
+
+.dashboard-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.welcome-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 6px;
+}
+
+.admin-badge {
+  background: #e74c6b;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 999px;
+}
+
+/* Stat Cards */
+.stat-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  border-top: 3px solid;
+}
+
+.stat-card.projects  { border-color: #e74c6b; }
+.stat-card.pending   { border-color: #f5a623; }
+.stat-card.progress  { border-color: #4a90d9; }
+.stat-card.completed { border-color: #27ae60; }
+.stat-card.notifs    { border-color: #9b59b6; }
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}

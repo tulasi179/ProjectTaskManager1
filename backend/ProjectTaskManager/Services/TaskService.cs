@@ -95,15 +95,26 @@ public class TaskService(AppDbContext context, INotificationService notification
         return tasks;
     }
 
-    public async Task<bool> DeleteTaskAsync(int id)
-    {
-        var res = await context.tasks.FindAsync(id);
-        if (res == null) throw new KeyNotFoundException($"Task with Id {id} was not found.");
+   public async Task<bool> DeleteTaskAsync(int id)
+{
+    var res = await context.tasks
+        .Include(t => t.Dependencies)  // TaskId = this task
+        .Include(t => t.Dependents)    // DependentTaskId = this task
+        .FirstOrDefaultAsync(t => t.Id == id);
 
-        context.tasks.Remove(res);
-        await context.SaveChangesAsync();
-        return true;
-    }
+    if (res == null) 
+        throw new KeyNotFoundException($"Task with Id {id} was not found.");
+
+    // 1. Delete dependencies first (both directions)
+    context.dependent.RemoveRange(res.Dependencies);
+    context.dependent.RemoveRange(res.Dependents);
+
+    // 2. Now safe to delete the task
+    context.tasks.Remove(res);
+
+    await context.SaveChangesAsync();
+    return true;
+}
 
     // public async Task<bool> UpdateTaskAsync(int id, ProjectTasks tasks)
     // {

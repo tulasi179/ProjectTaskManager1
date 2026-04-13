@@ -8,6 +8,7 @@ import { useTaskDeps } from '../hooks/useTaskDeps'
 import { nextStatus } from '../Utils/taskUtils'
 import './ProjectTasks.css'
 import { useProjectTasks } from '../hooks/useProjectTasks'
+import api from '../../api/axios'
 
 const EMPTY_FORM = (projectId) => ({ title: '', description: '', assigneeId: '', projectId })
 
@@ -27,32 +28,71 @@ const ProjectTasks = () => {
 
   const openCreate = () => {
     setEditTask(null); setForm(EMPTY_FORM(id)); setError('')
-    deps.setSelectedDep(''); setShowModal(true)
+    deps.setSelectedDep('');
+    deps.clearPendingDeps()
+    setShowModal(false) 
+    setShowModal(true)
   }
 
   const openEdit = async (task) => {
     setEditTask(task)
     setForm({ title: task.title, description: task.description, assigneeId: task.assigneeId, projectId: id })
+    deps.clearPendingDeps()
     await deps.loadDepsForTask(task.id)
     setError(''); setShowModal(true)
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); setError('')
-    const payload = { ...form, projectId: parseInt(id), assigneeId: parseInt(form.assigneeId) }
-    try {
-      if (editTask) {
-        await updateTask(editTask.id, payload)
-      } else {
-        const res = await createTask(payload)
-        if (deps.selectedDep)
-          await api.post('/taskdependency', { taskId: parseInt(deps.selectedDep), dependentTaskId: res.data.id }).catch(() => {})
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault(); setError('')
+  //   const payload = { ...form, projectId: parseInt(id), assigneeId: parseInt(form.assigneeId) }
+  //   try {
+  //     if (editTask) {
+  //       await updateTask(editTask.id, payload)
+  //     } else {
+  //       const res = await createTask(payload)
+  //       if (deps.selectedDep)
+  //         await api.post('/taskdependency', { taskId: parseInt(deps.selectedDep), dependentTaskId: res.data.id }).catch(() => {})
+  //     }
+  //     setShowModal(false); fetchAll()
+  //   } catch (err) {
+  //     setError(err.response?.data?.message || 'Something went wrong.')
+  //   }
+  // }
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault(); setError('')
+  const payload = { ...form, projectId: parseInt(id), assigneeId: parseInt(form.assigneeId) }
+  try {
+    if (editTask) {
+      await updateTask(editTask.id, payload)
+    } else {
+      const res = await createTask(payload)
+      const newTaskId = res.data.id
+
+      // Save all pending deps after task is created
+      for (const depTaskId of deps.pendingDeps) {
+        await api.post('/taskdependency', {
+          taskId: parseInt(depTaskId),
+          dependentTaskId: newTaskId
+        }).catch(() => {})
       }
-      setShowModal(false); fetchAll()
-    } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong.')
+      deps.clearPendingDeps()
     }
+    setShowModal(false); fetchAll()
+  } catch (err) {
+    setError(err.response?.data?.message || 'Something went wrong.')
   }
+}
+
+// Add this handler in ProjectTasks.jsx
+const handleAddDep = () => {
+  if (editTask) {
+    deps.addDep(editTask.id)  // edit mode → save to DB immediately
+  } else {
+    deps.addPendingDep()       // create mode → store locally
+  }
+}
 
   const handleDelete = async (taskId) => {
     if (!window.confirm('Delete this task?')) return
@@ -119,14 +159,17 @@ const ProjectTasks = () => {
       </div>
 
       {showModal && isAdmin && (
-        <TaskModal tasks={tasks} users={users} editTask={editTask} form={form}
-          onChange={e => setForm(f => ({ ...f, [e.target.name]: e.target.value }))}
-          onSubmit={handleSubmit} onClose={() => setShowModal(false)}
-          existingDeps={deps.existingDeps} selectedDep={deps.selectedDep}
-          setSelectedDep={deps.setSelectedDep} depError={deps.depError}
-          onAddDep={() => deps.addDep(editTask.id)} onRemoveDep={deps.removeDep}
-          error={error} />
-      )}
+  <TaskModal
+    tasks={tasks} users={users} editTask={editTask} form={form}
+    onChange={e => setForm(f => ({ ...f, [e.target.name]: e.target.value }))}
+    onSubmit={handleSubmit} onClose={() => setShowModal(false)}
+    existingDeps={deps.existingDeps} selectedDep={deps.selectedDep}
+    setSelectedDep={deps.setSelectedDep} depError={deps.depError}
+    onAddDep={handleAddDep}          
+    onRemoveDep={deps.removeDep}     
+    error={error}
+  />
+)}
     </div>
   )
 }

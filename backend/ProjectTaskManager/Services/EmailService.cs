@@ -1,7 +1,3 @@
-using Microsoft.VisualBasic;
-using Projecttaskmanager.Data;
-using Projecttaskmanager.DTOs;
-using Projecttaskmanager.Models;
 using System.Net;
 using System.Net.Mail;
 
@@ -9,9 +5,7 @@ namespace Projecttaskmanager.Services;
 
 public class EmailService(IConfiguration config) : IEmailService
 {
-    
-
-    public async Task SendOtpEmailAsync(String email, string otp, string purpose )
+    public async Task SendOtpEmailAsync(string email, string otp, string purpose)
     {
         var subject = purpose == "registration"
             ? "Verify your Email - OTP"
@@ -29,22 +23,34 @@ public class EmailService(IConfiguration config) : IEmailService
                  <p>This OTP is valid for <strong>10 minutes</strong>.</p>
                  <p>If you did not request this, ignore this email.</p>";
 
-        using var client = new SmtpClient(config["Email:SmtpHost"]!, int.Parse(config["Email:SmtpPort"]!))
+        try
         {
-            Credentials = new NetworkCredential(config["Email:Username"], config["Email:Password"]),
-            EnableSsl = true
-        };
+          using var client = new SmtpClient(config["Email:SmtpHost"]!, 587)
+{
+    Credentials = new NetworkCredential(config["Email:Username"], config["Email:Password"]),
+    EnableSsl = true,
+    UseDefaultCredentials = false,
+    DeliveryMethod = SmtpDeliveryMethod.Network
+};
 
-        var mail = new MailMessage
+            Console.WriteLine($"Connecting to {config["Email:SmtpHost"]}:{config["Email:SmtpPort"]}...");
+
+            var mail = new MailMessage
+            {
+                From = new MailAddress(config["Email:From"]!, "ProjectTaskManager"),
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            };
+
+            mail.To.Add(email);
+            await client.SendMailAsync(mail);
+            Console.WriteLine("✅ Email sent successfully!");
+        }
+        catch (Exception ex)
         {
-            From = new MailAddress(config["Email:From"]!, "ProjectTaskManager"),
-            Subject = subject,
-            Body = body,
-            IsBodyHtml = true
-        };
-
-        mail.To.Add(email);
-        await client.SendMailAsync(mail);
+            Console.WriteLine($"❌ SMTP ERROR: {ex.Message}");
+            throw;
+        }
     }
 }
-   

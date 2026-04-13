@@ -11,18 +11,28 @@ namespace Projecttaskmanager.Models;
 public class OtpController(IOtpService otpService) : ControllerBase
 {
     // POST api/otp/send
-    [HttpPost("send")]
-    public async Task<IActionResult> Send([FromBody] SendOtpRequest request)
+  [HttpPost("send")]
+public async Task<IActionResult> Send([FromBody] SendOtpRequest request)
+{
+    if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Purpose))
+        return BadRequest(new { message = "Email and purpose are required." });
+
+    if (request.Purpose != "registration" && request.Purpose != "forgot-password")
+        return BadRequest(new { message = "Invalid purpose." });
+
+    try
     {
-        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Purpose))
-            return BadRequest(new { message = "Email and purpose are required." });
-
-        if (request.Purpose != "registration" && request.Purpose != "forgot-password")
-            return BadRequest(new { message = "Invalid purpose." });
-
         await otpService.SendOtpAsync(request.Email, request.Purpose);
         return Ok(new { message = "OTP sent successfully." });
     }
+    catch (Exception ex)
+    {
+        // This will show the REAL error in both terminal and frontend
+        Console.WriteLine($"OTP SEND FAILED: {ex.Message}");
+        Console.WriteLine($"INNER: {ex.InnerException?.Message}");
+        return StatusCode(500, new { message = ex.Message });
+    }
+}
 
     // POST api/otp/verify
     [HttpPost("verify")]

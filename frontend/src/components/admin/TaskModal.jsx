@@ -43,7 +43,8 @@ const TaskModal = ({ tasks, users, editTask, form, onChange, onSubmit, onClose,
                 .filter(t => !existingDeps.find(d => d.taskId === t.id))
                 .map(t => <option key={t.id} value={t.id}>{t.title} — {t.status}</option>)}
             </select>
-            {editTask && <button type='button' className='dep-add-btn' onClick={onAddDep}>+ Add</button>}
+            <button type='button' className='dep-add-btn' onClick={onAddDep}>+ Add</button>
+
           </div>
         </div>
 

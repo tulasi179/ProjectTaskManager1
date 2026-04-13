@@ -50,15 +50,33 @@ public class ProjectService(AppDbContext context) :IProjectService
          return true;
     }
 
-    public  async Task<bool> DeleteProjectAsync(int id)
-    {
-        var pro = await context.project.FindAsync(id);
-        if(pro==null)
-             throw new KeyNotFoundException($"Project with Id {id} was not found.");
+    public async Task<bool> DeleteProjectAsync(int id)
+{
+    var pro = await context.project
+        .Include(p => p.Tasks)
+            .ThenInclude(t => t.Dependencies)  // Include task dependencies
+        .Include(p => p.Tasks)
+            .ThenInclude(t => t.Dependents)    // Include task dependents
+        .FirstOrDefaultAsync(p => p.Id == id);
 
-        context.project.Remove(pro);
-        await context.SaveChangesAsync();
-        return true;
+    if (pro == null)
+        throw new KeyNotFoundException($"Project with Id {id} was not found.");
+
+    // 1. Delete TaskDependencies first (they reference tasks)
+    foreach (var task in pro.Tasks)
+    {
+        context.dependent.RemoveRange(task.Dependencies);
+        context.dependent.RemoveRange(task.Dependents);
     }
+
+    // 2. Delete Tasks
+    context.tasks.RemoveRange(pro.Tasks);
+
+    // 3. Delete Project
+    context.project.Remove(pro);
+
+    await context.SaveChangesAsync();
+    return true;
+}
 
 }

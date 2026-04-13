@@ -125,6 +125,7 @@ const Projects = () => {
                        >
                           Edit
                         </button>
+                        
                         <button
                       className='delete-btn'
                       onClick={() => handleDelete(p.id)}>

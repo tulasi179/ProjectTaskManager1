@@ -3,6 +3,8 @@ import Navbar from '../Navbar'
 import { useAuth } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import api from '../../api/axios'
+import TasksChart from './TasksChart'
+import './AdminDashboard.css'
 
 import StatCard from './Statcard'
 import ProjectsSection from './ProjectsSection'
@@ -77,13 +79,13 @@ const AdminDashboard = () => {
 
 
   //the cardssssssssss in dashboard.
-  const cards = [
-    { label: 'Projects', value: projects.length, color: 'border-indigo-500' },
-    { label: 'Pending', value: pendingTasks.length, color: 'border-yellow-400' },
-    { label: 'In Progress', value: inProgressTasks.length, color: 'border-blue-400' },
-    { label: 'Completed', value: completedTasks.length, color: 'border-green-400' },
-    { label: 'Unread Notifs', value: unreadNotifs.length, color: 'border-red-400' }
-  ]
+ const cards = [
+  { label: 'Projects',     value: projects.length,       color: 'border-[#e74c6b]' },
+  { label: 'Pending',      value: pendingTasks.length,    color: 'border-[#f5a623]' },
+  { label: 'In Progress',  value: inProgressTasks.length, color: 'border-[#4a90d9]' },
+  { label: 'Completed',    value: completedTasks.length,  color: 'border-[#27ae60]' },
+  { label: 'Unread Notifs',value: unreadNotifs.length,    color: 'border-[#9b59b6]' },
+]
 
   return (
     <div className='min-h-screen bg-gray-100'>
@@ -94,7 +96,7 @@ const AdminDashboard = () => {
         {/* Welcome */}
         <div className='mb-8'>
           <h2 className='text-2xl font-bold text-gray-800'>
-            Welcome back, {user?.username}! ✌️
+            Welcome, {user?.username}! ✌️😊
           </h2>
           {/* for the user or admin in the dashboard */}
           <span className='inline-block mt-1 py-1 px-3 bg-indigo-600 text-white text-xs rounded-full'>
@@ -114,6 +116,8 @@ const AdminDashboard = () => {
 
         {/* Tasks */}
         <TasksTable tasks={tasks} users={users} role="Admin" />
+          {/* chart */}
+        <TasksChart tasks={tasks} projects={projects} />
 
       </div>
     </div>
