@@ -19,7 +19,7 @@ public class TaskDependencyController(ITaskDependencyService service) : Controll
     public async Task<ActionResult<List<TaskDependency>>> GetDependentTasksById(int taskId)
         => Ok(await service.GetDependentTasksById(taskId));
 
-    [HttpPost] // ← removed duplicate [HttpPost]
+    [HttpPost] 
     public async Task<ActionResult<TaskDependency>> AddDependency(TaskDependencyRequestDto dto)
     {
         var dependency = new TaskDependency
