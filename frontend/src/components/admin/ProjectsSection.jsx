@@ -16,7 +16,7 @@ const ProjectsSection = ({ projects, navigate }) => {
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-        {projects.slice(0, 6).map(p => (
+        {projects.slice(0, 3).map(p => (
           <div
             key={p.id}
             onClick={() => navigate(`/projects/${p.id}/tasks`)}

@@ -115,7 +115,7 @@ const AdminDashboard = () => {
         <ProjectsSection projects={projects} navigate={navigate} />
 
         {/* Tasks */}
-        <TasksTable tasks={tasks} users={users} role="Admin" />
+        <TasksTable tasks={tasks} users={users} role="Admin" onStatusUpdate={fetchAll} />
           {/* chart */}
         <TasksChart tasks={tasks} projects={projects} />
 

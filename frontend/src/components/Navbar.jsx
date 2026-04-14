@@ -214,7 +214,22 @@ function Navbar() {
                     placeholder='Enter new password'
                     required
                   />
+                 {pwForm.newPassword && (
+                        <ul className='password-hints'>
+                            <li style={{ color: pwForm.newPassword.length >= 8 ? 'green' : 'red' }}>
+                                {pwForm.newPassword.length >= 8 ? '✅' : '❌'} At least 8 characters
+                            </li>
+                            <li style={{ color: /[A-Z]/.test(pwForm.newPassword) ? 'green' : 'red' }}>
+                                {/[A-Z]/.test(pwForm.newPassword) ? '✅' : '❌'} One uppercase letter
+                            </li>
+                            <li style={{ color: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwForm.newPassword) ? 'green' : 'red' }}>
+                                {/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwForm.newPassword) ? '✅' : '❌'} One special character
+                            </li>
+                        </ul>
+                    )}
                 </div>
+
+
                 <div className='form-group'>
                   <label>Confirm New Password</label>
                   <input
@@ -225,6 +240,14 @@ function Navbar() {
                     placeholder='Confirm new password'
                     required
                   />
+
+                  {pwForm.confirmPassword && (
+                        <ul className='password-hints'>
+                             <li style={{ color: pwForm.newPassword=== pwForm.confirmPassword ? 'green' : 'red' }}>
+                                {pwForm.newPassword=== pwForm.confirmPassword ? '✅' : '❌'} confirm password should be same as the password
+                            </li>
+                        </ul>
+                    )}
                 </div>
                 <button type='submit' className='submit-btn' disabled={pwLoading}>
                   {pwLoading ? 'Updating...' : 'Update Password'}

@@ -1,15 +1,21 @@
+import { useState } from 'react'
 import api from '../../api/axios'
 
+const PAGE_SIZE = 5
+
 const TasksTable = ({ tasks, users = [], role = 'Admin', onStatusUpdate }) => {
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const totalPages = Math.ceil(tasks.length / PAGE_SIZE)
+  const paginated = tasks.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
 
   const handleStatusChange = async (taskId, currentStatus) => {
     const nextStatus = currentStatus === 'Pending' ? 'InProgress' : 'Completed'
-
     try {
       await api.patch(`/task/${taskId}/status`, { Status: nextStatus })
-      onStatusUpdate() // refetch tasks from parent
+      onStatusUpdate()
     } catch (err) {
-        console.log(err.response?.data)
+      console.log(err.response?.data)
       console.log(err)
     }
   }
@@ -31,7 +37,7 @@ const TasksTable = ({ tasks, users = [], role = 'Admin', onStatusUpdate }) => {
           </thead>
 
           <tbody>
-            {tasks.slice(0, 8).map(t => {
+            {paginated.map(t => {
               const assignee = users.find(u => u.id === t.assigneeId)
               const isCompleted = t.status === 'Completed'
 
@@ -82,6 +88,44 @@ const TasksTable = ({ tasks, users = [], role = 'Admin', onStatusUpdate }) => {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className='flex items-center justify-between mt-4 text-sm text-gray-500'>
+          <span>Page {currentPage} of {totalPages}</span>
+          <div className='flex gap-2'>
+            <button
+              onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+              disabled={currentPage === 1}
+              className='px-3 py-1 rounded border disabled:opacity-40 hover:bg-gray-100'
+            >
+              ← Prev
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`px-3 py-1 rounded border ${
+                  currentPage === page
+                    ? 'bg-indigo-600 text-white border-indigo-600'
+                    : 'hover:bg-gray-100'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className='px-3 py-1 rounded border disabled:opacity-40 hover:bg-gray-100'
+            >
+              Next →
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
