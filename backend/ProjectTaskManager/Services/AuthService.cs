@@ -127,7 +127,7 @@ public class AuthService(AppDbContext context , IConfiguration configuration) :I
                 issuer: configuration.GetValue<string>("AppSettings:Issuer"),
                 audience: configuration.GetValue<string>("AppSettings:Audience"),
                 claims: claims,
-                expires : DateTime.UtcNow.AddMinutes(15),
+                expires : DateTime.UtcNow.AddSeconds(10),
                 signingCredentials :creds
             );
 

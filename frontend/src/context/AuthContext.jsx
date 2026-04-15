@@ -22,6 +22,7 @@ export const AuthProvider = ({children}) => {
         localStorage.setItem('user', JSON.stringify(userData))
         localStorage.setItem('token', accessToken)
         localStorage.setItem('refreshToken', refreshToken)
+         localStorage.setItem('userId', userData.id)
 
     }
 
@@ -29,9 +30,10 @@ export const AuthProvider = ({children}) => {
     const logout= () => {
         setUser(null)
         setToken(null)
-        localStorage.removeItem('user')
-        localStorage.removeItem('token')
-        localStorage.removeItem('refreshToken')
+        localStorage.clear()
+        // localStorage.removeItem('user')
+        // localStorage.removeItem('token')
+        // localStorage.removeItem('refreshToken')
     }
 
     return (

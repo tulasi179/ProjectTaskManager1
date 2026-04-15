@@ -12,4 +12,44 @@ api.interceptors.request.use((config)=>{
         config.headers.Authorization = `Bearer ${token}`
     return config
 })
+
+//interceptors handle 401 error
+api.interceptors.response.use(
+    
+        res => res,
+    async (error) => {
+        const originalRequest = error.config
+
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true
+
+            try {
+                const refreshToken = localStorage.getItem("refreshToken")
+                const userId = localStorage.getItem("userId")
+
+                const response = await axios.post(
+                    "http://localhost:5093/api/auth/refresh-token",
+                    { userId, refreshToken }
+                )
+
+                localStorage.setItem("token", response.data.accessToken)
+                localStorage.setItem("refreshToken", response.data.refreshToken)
+
+                originalRequest.headers.Authorization =
+                  `Bearer ${response.data.accessToken}`
+
+                return api(originalRequest)
+
+            } catch (err) {
+                // ❗ IMPORTANT: force logout
+                localStorage.clear()
+                window.location.href = "/login"
+            }
+        }
+        console.log("🔥 401 detected");
+    console.log("🔁 calling refresh token");
+
+        return Promise.reject(error)
+})
+
 export default api

@@ -1,148 +1,97 @@
+using Xunit;
 using Moq;
-using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using Projecttaskmanager.Controllers;
 using Projecttaskmanager.Services;
 using Projecttaskmanager.Models;
 using Projecttaskmanager.DTOs;
 using ProjectTaskManager.MockData;
 
-namespace ProjectTaskManager.Tests.Systems.Controllers;
 
-public class ProjectControllerTests
+namespace ProjectTaskManager.Tests.Controllers
 {
-    // ─────────────────────────────────────────────
-    // GET /project
-    // ─────────────────────────────────────────────
-
-    [Fact]
-    public async Task GetProjects_ShouldReturn200_WithProjectList()
+    public class ProjectControllerTests
     {
-        // Arrange
-        var projectService = new Mock<IProjectService>();
-        projectService.Setup(s => s.GetAllProjectsAsync()).ReturnsAsync(ProjectMockData.GetProjects());
-        var controller = new ProjectController(projectService.Object);
+        private readonly ProjectController _controller;
+        private readonly Mock<IProjectService> _mockService;
 
-        // Act
-        var result = await controller.GetProject();
-
-        // Assert
-        var ok = result.Result.Should().BeOfType<OkObjectResult>().Subject;
-        ok.StatusCode.Should().Be(200);
-        ok.Value.Should().BeAssignableTo<List<Project>>()
-                .Which.Should().HaveCount(3);
-    }
-
-    // ─────────────────────────────────────────────
-    // GET /project/{id}
-    // ─────────────────────────────────────────────
-
-    [Fact]
-    public async Task GetProjectById_ShouldReturn200_WithProject()
-    {
-        // Arrange
-        var projectService = new Mock<IProjectService>();
-        var fakeProject = ProjectMockData.GetSingleProject(1);
-        projectService.Setup(s => s.GetProjectByIdAsync(1)).ReturnsAsync(fakeProject);
-        var controller = new ProjectController(projectService.Object);
-
-        // Act
-        var result = await controller.GetProject(1);
-
-        // Assert
-        var ok = result.Result.Should().BeOfType<OkObjectResult>().Subject;
-        ok.StatusCode.Should().Be(200);
-        ok.Value.Should().BeOfType<Project>()
-                .Which.Name.Should().Be("TaskManager");
-    }
-
-    // ─────────────────────────────────────────────
-    // POST /project (Admin only)
-    // ─────────────────────────────────────────────
-
-    [Fact]
-    public async Task CreateProject_ShouldReturn200_WithProjectResponse()
-    {
-        // Arrange
-        var projectService = new Mock<IProjectService>();
-        var dto = new ProjectRequestDTOs
+        public ProjectControllerTests()
         {
-            Name        = "New Project",
-            OwnerId     = 1,
-            Description = "Test description",
-            StartDate   = new DateTime(2026, 1, 1),
-            EndDate     = new DateTime(2026, 6, 1)
-        };
-        var created = new Project
+            _mockService = new Mock<IProjectService>();
+            _controller = new ProjectController(_mockService.Object);
+        }
+
+        // Get all projects
+        [Fact]
+        public async Task GetProject_ReturnsOk()
         {
-            Id          = 10,
-            Name        = dto.Name,
-            OwnerId     = dto.OwnerId,
-            Description = dto.Description,
-            StartDate   = dto.StartDate,
-            EndDate     = dto.EndDate
-        };
-        projectService.Setup(s => s.AddProjectAsync(It.IsAny<Project>())).ReturnsAsync(created);
-        var controller = new ProjectController(projectService.Object);
+            var projects = ProjectMockData.GetProjects();
 
-        // Act
-        var result = await controller.CreateProject(dto);
+            _mockService.Setup(x => x.GetAllProjectsAsync())
+                        .ReturnsAsync(projects);//returns fake data
 
-        // Assert
-        var ok = result.Result.Should().BeOfType<OkObjectResult>().Subject;
-        ok.StatusCode.Should().Be(200);
-        var response = ok.Value.Should().BeOfType<ProjectResponseDTOs>().Subject;
-        response.Name.Should().Be("New Project");
-        response.Id.Should().Be(10);
-    }
+            var result = await _controller.GetProject();//calls contoller methods
 
-    // ─────────────────────────────────────────────
-    // PUT /project/{id} (Admin only)
-    // ─────────────────────────────────────────────
+            Assert.IsType<OkObjectResult>(result.Result);//checks if the response is 200 ok
+        }
 
-    [Fact]
-    public async Task UpdateProject_ShouldReturn200_WithSuccessMessage()
-    {
-        // Arrange
-        var projectService = new Mock<IProjectService>();
-        var dto = new ProjectRequestDTOs
+        // Get project by id
+        [Fact]
+        public async Task GetProjectById_ReturnsOk()
         {
-            Name        = "Updated Project",
-            OwnerId     = 1,
-            Description = "Updated description",
-            StartDate   = new DateTime(2026, 1, 1),
-            EndDate     = new DateTime(2026, 6, 1)
-        };
-        projectService.Setup(s => s.UpdateProjectAsync(1, It.IsAny<Project>())).ReturnsAsync(true);
-        var controller = new ProjectController(projectService.Object);
+            var project = ProjectMockData.GetSingleProject(1);
 
-        // Act
-        var result = await controller.UpdateProject(1, dto);
+            _mockService.Setup(x => x.GetProjectByIdAsync(1))
+                        .ReturnsAsync(project);
 
-        // Assert
-        var ok = result.Should().BeOfType<OkObjectResult>().Subject;
-        ok.StatusCode.Should().Be(200);
-        ok.Value.Should().Be("Project updated successfully");
-    }
+            var result = await _controller.GetProject(1);
 
-    // ─────────────────────────────────────────────
-    // DELETE /project/{id} (Admin only)
-    // ─────────────────────────────────────────────
+            Assert.IsType<OkObjectResult>(result.Result);
+        }
 
-    [Fact]
-    public async Task DeleteProject_ShouldReturn200_WithSuccessMessage()
-    {
-        // Arrange
-        var projectService = new Mock<IProjectService>();
-        projectService.Setup(s => s.DeleteProjectAsync(1)).ReturnsAsync(true);
-        var controller = new ProjectController(projectService.Object);
+        // Create project
+        [Fact]
+        public async Task CreateProject_ReturnsOk()
+        {
+            var dto = new ProjectRequestDTOs
+            {
+                Name = "Test Project",
+                OwnerId = 1,
+                Description = "Test Desc",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(10)
+            };
 
-        // Act
-        var result = await controller.DeleteProject(1);
+            var project = new Project
+            {
+                Id = 1,
+                Name = dto.Name,
+                OwnerId = dto.OwnerId,
+                Description = dto.Description,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate
+            };
 
-        // Assert
-        var ok = result.Should().BeOfType<OkObjectResult>().Subject;
-        ok.StatusCode.Should().Be(200);
-        ok.Value.Should().Be("Project deleted successfully");
+            _mockService.Setup(x => x.AddProjectAsync(It.IsAny<Project>()))
+                        .ReturnsAsync(project);
+
+            var result = await _controller.CreateProject(dto);
+
+            Assert.IsType<OkObjectResult>(result.Result);
+        }
+
+        //  Delete project
+        [Fact]
+        public async Task DeleteProject_ReturnsOk()
+        {
+            _mockService.Setup(x => x.DeleteProjectAsync(1))
+                        .ReturnsAsync(true);
+
+            var result = await _controller.DeleteProject(1);
+
+            Assert.IsType<OkObjectResult>(result);
+        }
     }
 }

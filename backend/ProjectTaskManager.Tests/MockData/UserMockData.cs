@@ -14,7 +14,7 @@ public class UserMockData
                 Id =1,
                 Username= "tulasi",
                 Email = "Tulasi@test.com",
-                Role = "User",
+                Role = "Admin",
                 IsActive =true
             },
             new UserResponce
