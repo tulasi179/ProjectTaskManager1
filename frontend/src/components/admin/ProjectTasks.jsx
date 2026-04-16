@@ -160,11 +160,16 @@ const handleAddDep = () => {
 
       {showModal && isAdmin && (
   <TaskModal
-    tasks={tasks} users={users} editTask={editTask} form={form}
+    tasks={tasks} 
+    users={users} 
+    editTask={editTask} 
+    form={form}
     onChange={e => setForm(f => ({ ...f, [e.target.name]: e.target.value }))}
     onSubmit={handleSubmit} onClose={() => setShowModal(false)}
-    existingDeps={deps.existingDeps} selectedDep={deps.selectedDep}
-    setSelectedDep={deps.setSelectedDep} depError={deps.depError}
+    existingDeps={deps.existingDeps} 
+    selectedDep={deps.selectedDep}
+    setSelectedDep={deps.setSelectedDep} 
+    depError={deps.depError}
     onAddDep={handleAddDep}          
     onRemoveDep={deps.removeDep}     
     error={error}

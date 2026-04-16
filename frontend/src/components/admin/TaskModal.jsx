@@ -1,3 +1,4 @@
+import UserSearchTrie from "./UserSearchTrie"
 const TaskModal = ({ tasks, users, editTask, form, onChange, onSubmit, onClose,
                      existingDeps, selectedDep, setSelectedDep, depError, onAddDep, onRemoveDep, error }) => (
   <div className='modal-overlay' onClick={onClose}>
@@ -14,12 +15,36 @@ const TaskModal = ({ tasks, users, editTask, form, onChange, onSubmit, onClose,
           <label>Description</label>
           <textarea name='description' value={form.description} onChange={onChange} rows={3} required />
         </div>
-        <div className='form-group'>
+        {/* <div className='form-group'>
           <label>Assign To</label>
           <select name='assigneeId' value={form.assigneeId} onChange={onChange} required>
             <option value=''>Select a user</option>
             {users.map(u => <option key={u.id} value={u.id}>{u.username}</option>)}
           </select>
+        </div> */}
+
+
+        {/* BEFORE - dropdown */}
+
+        {/* AFTER - Trie search */}
+        <div className='form-group'>
+            <label>Assign To</label>
+            <UserSearchTrie
+                onSelectUser={(user) => {
+                    onChange({
+                        target: { name: 'assigneeId', value: user.id }
+                    })
+                }}
+                // show current assigned user when editing
+                initialValue={
+                  editTask ? users.find(u => u.id === parseInt(form.assigneeId))?.username || '' : ''
+              }
+            />
+            {form.assigneeId && (
+                <p className='selected-user'>
+                    ✅ Assigned to: <b>{users.find(u => u.id === parseInt(form.assigneeId))?.username}</b>
+                </p>
+            )}
         </div>
 
         <div className='form-group'>

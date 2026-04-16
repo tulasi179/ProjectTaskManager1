@@ -18,8 +18,8 @@ const Projects = () => {
     name: '',
     ownerId: '',
     description:'',
-    startDate:'',
-    endDate: ''
+    startDate:null,
+    endDate: null
   })
  const [showModal, setShowModal] = useState(false)
  const [editProject, setEditProject] = useState(null)

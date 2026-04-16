@@ -41,13 +41,13 @@ api.interceptors.response.use(
                 return api(originalRequest)
 
             } catch (err) {
-                // ❗ IMPORTANT: force logout
+                //  IMPORTANT: force logout
                 localStorage.clear()
                 window.location.href = "/login"
             }
         }
-        console.log("🔥 401 detected");
-    console.log("🔁 calling refresh token");
+    //     console.log(" 401 detected");
+    // console.log("calling refresh token");
 
         return Promise.reject(error)
 })

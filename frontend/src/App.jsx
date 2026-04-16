@@ -10,6 +10,7 @@ import ProjectTasks from './components/admin/ProjectTasks'
 import Notifications from './components/user/Notifications'
 import OtpVerification from './OtpVerification'
 import ForgotPassword from './ForgotPassword'
+import ProtectedRoute from './ProtectedRoute'
 import './App.css'
 
 
@@ -20,13 +21,16 @@ import './App.css'
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-            <Route path='/' element={<Navigate to='/login'/>}/>
+            <Route path='/' element={<Navigate to=  '/login'/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path ='/notifications' element = {<Notifications/>}/>
-            <Route path='/admindashboard' element={<AdminDashboard/>} />
+            <Route path='/admindashboard' element={
+            <ProtectedRoute requiredRole='Admin'>
+               <AdminDashboard />
+           </ProtectedRoute>} />
             <Route path='/userdashboard' element={<UserDashboard />} />
-            <Route path='/projects' element={<Projects/>}/>
+            <Route path='/projects' element={<ProtectedRoute><Projects/></ProtectedRoute>}/>
             <Route path='/projects/:id/tasks' element={<ProjectTasks/>}/>
             <Route path='/forgot-password' element={<ForgotPassword />} />
         

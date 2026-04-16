@@ -14,7 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddControllers()
+
+builder.Services.AddControllers()//401
 .AddJsonOptions(options => {
         options.JsonSerializerOptions.PropertyNamingPolicy = 
             System.Text.Json.JsonNamingPolicy.CamelCase;
@@ -42,11 +43,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 IssuerSigningKey = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token"]!)),
                 ValidateIssuerSigningKey = true  ,     
-                ClockSkew = TimeSpan.Zero
+                ClockSkew = TimeSpan.Zero// strict expirey token. instead of 5 min
             };
         });
 //Scoped means that thing live out through the whole request.
 //until it return the final request
+builder.Services.AddSingleton<IUserSearchService, UserSearchService>();
 builder.Services.AddScoped<IUsersService, UsersServices>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
@@ -80,6 +82,13 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// Auto-build trie on startup
+using (var scope = app.Services.CreateScope())
+{
+    var userSearchService = scope.ServiceProvider.GetRequiredService<IUserSearchService>();
+    await userSearchService.BuildTrieAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
