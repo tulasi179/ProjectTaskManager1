@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL : 'http://localhost:5093/api',
+    baseURL : 'https://projecttaskmanager-api-bfb8f7facydedefs.centralindia-01.azurewebsites.net/api',
 })
 
 
@@ -28,7 +28,7 @@ api.interceptors.response.use(
                 const userId = localStorage.getItem("userId")
 
                 const response = await axios.post(
-                    "http://localhost:5093/api/auth/refresh-token",
+                    "https://projecttaskmanager-api-bfb8f7facydedefs.centralindia-01.azurewebsites.net/api/auth/refresh-token", 
                     { userId, refreshToken }
                 )
 

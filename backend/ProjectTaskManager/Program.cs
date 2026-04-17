@@ -75,7 +75,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins(
+            "http://localhost:5173",
+           "https://agreeable-dune-0e39f5a00.1.azurestaticapps.net")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });

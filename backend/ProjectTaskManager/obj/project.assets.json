@@ -4347,11 +4347,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\Projecttaskmanager.csproj",
+      "projectUniqueName": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\ProjectTaskManager\\Projecttaskmanager.csproj",
       "projectName": "Projecttaskmanager",
-      "projectPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\Projecttaskmanager.csproj",
+      "projectPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\ProjectTaskManager\\Projecttaskmanager.csproj",
       "packagesPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\obj\\",
+      "outputPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\ProjectTaskManager\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\AppData\\Roaming\\NuGet\\NuGet.Config"
