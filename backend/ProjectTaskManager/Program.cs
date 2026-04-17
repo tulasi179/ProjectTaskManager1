@@ -86,10 +86,16 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Auto-build trie on startup
-using (var scope = app.Services.CreateScope())
+//deploying error so adding try catch.
+try
 {
+    using var scope = app.Services.CreateScope();
     var userSearchService = scope.ServiceProvider.GetRequiredService<IUserSearchService>();
     await userSearchService.BuildTrieAsync();
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Trie build failed: {ex.Message}. App will continue.");
 }
 
 // Configure the HTTP request pipeline.
