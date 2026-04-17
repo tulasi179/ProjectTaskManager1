@@ -21,7 +21,7 @@ builder.Services.AddControllers()//401
             System.Text.Json.JsonNamingPolicy.CamelCase;
     });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddOpenApi();
+//builder.Services.AddOpenApi();
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -101,7 +101,7 @@ catch (Exception ex)
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    //app.MapOpenApi();
     app.MapScalarApiReference();
 
 }

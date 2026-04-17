@@ -1,6 +1,12 @@
 C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\publish\Projecttaskmanager.exe
+C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\publish\publish\web.config
 C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\publish\appsettings.Development.json
 C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\publish\appsettings.json
+C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\publish\publish\appsettings.Development.json
+C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\publish\publish\appsettings.json
+C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\publish\publish\Projecttaskmanager.deps.json
+C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\publish\publish\Projecttaskmanager.runtimeconfig.json
+C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\publish\publish\Projecttaskmanager.staticwebassets.endpoints.json
 C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\publish\Projecttaskmanager.dll
 C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\publish\Projecttaskmanager.runtimeconfig.json
 C:\Users\TULASINALLURI.DESKTOP-NALLURI\Desktop\ProjectTaskManager1\backend\ProjectTaskManager\publish\Projecttaskmanager.pdb
