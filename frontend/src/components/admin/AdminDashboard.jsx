@@ -6,7 +6,7 @@ import api from '../../api/axios'
 import TasksChart from './TasksChart'
 import './AdminDashboard.css'
 
-import StatCard from './Statcard'
+import StatCard from './StatCard'
 import ProjectsSection from './ProjectsSection'
 import TasksTable from './TasksTable'
 

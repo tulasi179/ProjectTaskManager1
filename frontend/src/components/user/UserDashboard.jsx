@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import api from '../../api/axios'
 
-import StatCard from '../admin/Statcard'
+import StatCard from "../admin/StatCard"; 
 import TasksTable from '../admin/TasksTable'
 import Projects from '../admin/Projects'
 
