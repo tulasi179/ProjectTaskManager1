@@ -3,6 +3,7 @@ import Navbar from '../Navbar'
 import { useAuth } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import api from '../../api/axios'
+import Footer from '../Footer'
 
 import StatCard from "../admin/StatCard"; 
 import TasksTable from '../admin/TasksTable'
@@ -91,7 +92,7 @@ const UserDashboard = () => {
         {/* Welcome */}
         <div className='mb-8'>
           <h2 className='text-2xl font-bold text-gray-800'>
-            Welcome back, {user?.username}! ✌️
+            Welcome , {user?.username}! ✌️
           </h2>
           {/* for the user or admin in the dashboard */}
           <span className='inline-block mt-1 py-1 px-3 bg-indigo-600 text-white text-xs rounded-full'>
@@ -129,6 +130,11 @@ const UserDashboard = () => {
         )}
           
          <TasksTable tasks={tasks} role="User" onStatusUpdate={fetchAll} />
+
+        <div>
+          {/* your existing code */}
+          <Footer />
+        </div>
 
       </div>
     </div>

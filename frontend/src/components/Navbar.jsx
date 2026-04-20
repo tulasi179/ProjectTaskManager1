@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { useState, useEffect } from 'react'
 import api from '../api/axios'
 import './Navbar.css'
+import AdminDashboard from './admin/AdminDashboard'
 
 function Navbar() {
   const { user, logout } = useAuth()
@@ -107,7 +108,7 @@ function Navbar() {
   return (
     <>
       <nav className='navbar'>
-        <h1>Project Task Manager</h1>
+      <h1 onClick={() => navigate(dashboardPath)} style={{ cursor: 'pointer' }}>Project Task Manager</h1>
 
         <div className='nav-links'>
           <Link to={dashboardPath}>Dashboard</Link>
@@ -151,7 +152,7 @@ function Navbar() {
               </div>
               <div>
                 <h3>{user.username}</h3>
-                <span className='profile-role-badge'>{user.role}</span>
+                <span className='profile-role-badge'>{user.role === 'Admin' ? 'Manager' : 'User'}</span>
               </div>
               <button className='modal-close' onClick={() => setShowProfile(false)}>✕</button>
             </div>

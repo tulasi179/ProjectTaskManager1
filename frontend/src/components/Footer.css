@@ -1,0 +1,17 @@
+.footer {
+  background-color: #1e1e2f;
+  color: #aaa;
+  text-align: center;
+  padding: 15px 20px;
+  font-size: 0.875rem;
+  border-top: 1px solid #333;
+  position: fixed;
+  bottom: -60px;
+  width: 100%;
+  transition: bottom 0.3s ease;
+}
+
+.footer:hover,
+.footer.visible {
+  bottom: 0;
+}

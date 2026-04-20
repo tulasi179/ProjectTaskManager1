@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import api from '../../api/axios'
 import TasksChart from './TasksChart'
 import './AdminDashboard.css'
+import Footer from '../Footer'
 
 import StatCard from './StatCard'
 import ProjectsSection from './ProjectsSection'
@@ -100,7 +101,7 @@ const AdminDashboard = () => {
           </h2>
           {/* for the user or admin in the dashboard */}
           <span className='inline-block mt-1 py-1 px-3 bg-indigo-600 text-white text-xs rounded-full'>
-            Admin
+            Manager
           </span>
         </div>
 
@@ -118,6 +119,11 @@ const AdminDashboard = () => {
         <TasksTable tasks={tasks} users={users} role="Admin" onStatusUpdate={fetchAll} />
           {/* chart */}
         <TasksChart tasks={tasks} projects={projects} />
+
+         <div>
+    {/* your existing code */}
+    <Footer />
+  </div>
 
       </div>
     </div>
