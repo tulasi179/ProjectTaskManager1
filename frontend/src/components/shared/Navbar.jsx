@@ -1,9 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 import { useState, useEffect } from 'react'
-import api from '../api/axios'
+import api from '../../api/axios'
 import './Navbar.css'
-import AdminDashboard from './admin/AdminDashboard'
+import AdminDashboard from '../admin/AdminDashboard'
 
 function Navbar() {
   const { user, logout } = useAuth()

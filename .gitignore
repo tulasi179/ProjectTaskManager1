@@ -1,0 +1,18 @@
+# Backend
+backend/ProjectTaskManager/bin/
+backend/ProjectTaskManager/obj/
+backend/ProjectTaskManager/publish/
+backend/ProjectTaskManager/deploy_*/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# VS Code
+.vs/
+*.user
+*.suo
+
+# Environment
+.env
+appsettings.Development.json

@@ -9,4 +9,9 @@ body {
 .my-button {
   @apply px-4 py-2 bg-blue-500 text-white rounded;
 }
+@media (max-width: 768px) {
+  .navbar { flex-direction: column; }
+  .login-box { width: 90%; }
+  .dashboard { padding: 10px; }
+}
 

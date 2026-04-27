@@ -22,7 +22,7 @@ export const AuthProvider = ({children}) => {
         localStorage.setItem('user', JSON.stringify(userData))
         localStorage.setItem('token', accessToken)
         localStorage.setItem('refreshToken', refreshToken)
-         localStorage.setItem('userId', userData.id)
+        localStorage.setItem('userId', userData.id)
 
     }
 
@@ -44,7 +44,7 @@ export const AuthProvider = ({children}) => {
     )
 }
 
-//userAuth hook shortcut instead of user = useContext(AuthContext) -> we use user = UseAuth()
+//userAuth hook shortcut instead of user = useContext(AuthContext) -> we use ' user = UseAuth()'
 
 export const useAuth=()=>{
     return useContext(AuthContext)

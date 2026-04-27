@@ -1,9 +1,9 @@
 import  { useState, useEffect } from 'react'
-import Navbar from '../Navbar'
+import Navbar from '../shared/Navbar'
 import { useAuth } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import api from '../../api/axios'
-import Footer from '../Footer'
+import Footer from '../shared/Footer'
 
 import StatCard from "../admin/StatCard"; 
 import TasksTable from '../admin/TasksTable'

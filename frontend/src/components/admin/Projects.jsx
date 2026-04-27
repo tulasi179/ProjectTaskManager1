@@ -1,7 +1,7 @@
 import React, { useState ,useEffect} from 'react'
 import api from '../../api/axios'
 import './Projects.css'
-import Navbar from '../Navbar'
+import Navbar from '../shared/Navbar'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import Navbar from '../Navbar'
+import Navbar from '../shared/Navbar'
 import DependencyGraph from './DependencyGraph'
 import TaskRow from './TaskRow'
 import TaskModal from './TaskModal'

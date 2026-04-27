@@ -1,9 +1,9 @@
 import  { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import Navbar from '../Navbar'
 import api from '../../api/axios'
 import './Notifications.css'
+import Navbar from '../shared/Navbar'
 
 const Notifications = () => {
   const { user, authLoading } = useAuth()
