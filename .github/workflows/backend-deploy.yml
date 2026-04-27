@@ -21,13 +21,13 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore backend/ProjectTaskManager/ProjecttaskManager.csproj
+        run: dotnet restore backend/ProjectTaskManager/Projecttaskmanager.csproj
 
       - name: Build
-        run: dotnet build backend/ProjectTaskManager/ProjecttaskManager.csproj --configuration Release
+        run: dotnet build backend/ProjectTaskManager/Projecttaskmanager.csproj --configuration Release
 
       - name: Publish
-        run: dotnet publish backend/ProjectTaskManager/ProjecttaskManager.csproj -c Release -o ./publish
+        run: dotnet publish backend/ProjectTaskManager/Projecttaskmanager.csproj -c Release -o ./publish
 
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v3
