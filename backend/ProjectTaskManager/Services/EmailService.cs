@@ -26,12 +26,12 @@ public class EmailService(IConfiguration config) : IEmailService
         try
         {
           using var client = new SmtpClient(config["Email:SmtpHost"]!, 587)
-{
-    Credentials = new NetworkCredential(config["Email:Username"], config["Email:Password"]),
-    EnableSsl = true,
-    UseDefaultCredentials = false,
-    DeliveryMethod = SmtpDeliveryMethod.Network
-};
+            {
+                Credentials = new NetworkCredential(config["Email:Username"], config["Email:Password"]),
+                EnableSsl = true,
+                UseDefaultCredentials = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network
+            };
 
             Console.WriteLine($"Connecting to {config["Email:SmtpHost"]}:{config["Email:SmtpPort"]}...");
 

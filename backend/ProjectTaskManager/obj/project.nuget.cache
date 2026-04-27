@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "iMFL29qP41g=",
+  "dgSpecHash": "JDEdQxuxqe0=",
   "success": true,
   "projectFilePath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\Projecttaskmanager.csproj",
   "expectedPackageFiles": [
@@ -91,7 +91,7 @@
     "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.13\\microsoft.netcore.app.ref.9.0.13.nupkg.sha512",
     "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.13\\microsoft.windowsdesktop.app.ref.9.0.13.nupkg.sha512",
     "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.13\\microsoft.aspnetcore.app.ref.9.0.13.nupkg.sha512",
-    "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\9.0.13\\microsoft.netcore.app.host.linux-x64.9.0.13.nupkg.sha512"
+    "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\9.0.13\\microsoft.netcore.app.host.win-x64.9.0.13.nupkg.sha512"
   ],
   "logs": [
     {
@@ -103,8 +103,7 @@
       "filePath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\Projecttaskmanager.csproj",
       "libraryId": "MailKit",
       "targetGraphs": [
-        "net9.0",
-        "net9.0/linux-x64"
+        "net9.0"
       ]
     }
   ]

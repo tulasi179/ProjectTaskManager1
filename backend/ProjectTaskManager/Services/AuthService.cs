@@ -48,6 +48,7 @@ public class AuthService(AppDbContext context , IConfiguration configuration) :I
         Username = request.Username,
         Email = request.Email,
         Role = request.Role,
+        IsActive = false
     };
 
     user.PasswordHash = new PasswordHasher<Users>().HashPassword(user, request.Password);

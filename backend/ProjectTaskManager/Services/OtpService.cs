@@ -47,6 +47,12 @@ public class OtpService(AppDbContext context, IEmailService emailService) : IOtp
 
         // Mark as used so it can't be reused
         otpRecord.IsUsed = true;
+         if (purpose == "registration")
+        {
+            var user = await context.User.FirstOrDefaultAsync(u => u.Email == email);
+            if (user is not null)
+                user.IsActive = true;
+        }
         await context.SaveChangesAsync();
 
         return true;

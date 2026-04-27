@@ -1,5 +1,4 @@
 namespace Projecttaskmanager.Models;
-
 public class OtpCode
 {
     public int Id{ get; set; }

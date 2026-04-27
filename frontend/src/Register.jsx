@@ -51,7 +51,7 @@ const Register = () => {
         })
 
     } catch (err) {
-        setError(err.response?.data?.message || 'Registration failed.')
+        setError(err.response?.data || 'Registration failed.')
         setLoading(false)
         return
     }

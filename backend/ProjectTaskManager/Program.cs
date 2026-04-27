@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Components.Infrastructure;
 using Projecttaskmanager.Data;
 using Microsoft.EntityFrameworkCore;
 using Projecttaskmanager.Services;
@@ -13,7 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 builder.Services.AddControllers()//401
 .AddJsonOptions(options => {
@@ -52,7 +50,6 @@ builder.Services.AddSingleton<IUserSearchService, UserSearchService>();
 builder.Services.AddScoped<IUsersService, UsersServices>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-// Add this with your other service registrations
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>(); 
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
@@ -77,20 +74,21 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
             "http://localhost:5173",
-           "https://agreeable-dune-0e39f5a00.1.azurestaticapps.net")
+            "https://agreeable-dune-0e39f5a00.1.azurestaticapps.net")
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+               .AllowCredentials();
     });
 });
 
 var app = builder.Build();
 
 // Auto-build trie on startup
-//deploying error so adding try catch.
+//deploy error so adding try catch.
 try
 {
-    using var scope = app.Services.CreateScope();
-    var userSearchService = scope.ServiceProvider.GetRequiredService<IUserSearchService>();
+    using var scope = app.Services.CreateScope();// temporory scope for trie
+    var userSearchService = scope.ServiceProvider.GetRequiredService<IUserSearchService>();//gets the service
     await userSearchService.BuildTrieAsync();
 }
 catch (Exception ex)
@@ -99,10 +97,12 @@ catch (Exception ex)
 }
 
 // Configure the HTTP request pipeline.
+//only runns locally setup the scalar
 if (app.Environment.IsDevelopment())
 {
     //app.MapOpenApi();
     app.MapScalarApiReference();
+    //both do the same thing displays the api doc
 
 }
 app.UseMiddleware<ExceptionHandlingMiddleware>();
