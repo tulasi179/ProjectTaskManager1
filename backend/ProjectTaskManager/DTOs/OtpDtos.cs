@@ -1,5 +1,6 @@
 // DTOs/OtpDtos.cs
 namespace Projecttaskmanager.DTOs;
+//see
 public class SendOtpRequest
 {
     public required string Email { get; set; }

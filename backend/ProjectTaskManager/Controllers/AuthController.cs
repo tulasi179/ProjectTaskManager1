@@ -25,11 +25,9 @@ namespace Projecttaskmanager.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<TokenResponce>> Login(UserResponce request)
         {
-            var result = await authService.LoginAsync(request);
-            if(result is null)
-            {
-                return BadRequest("Invalid User name or Password.");
-            }
+            var (result, error) = await authService.LoginAsync(request);
+            if (result is null)
+                return BadRequest(error);
             return Ok(result);
         }
 
@@ -40,7 +38,6 @@ namespace Projecttaskmanager.Controllers
             if(result is null || result.AccessToken is null || result.RefreshToken is null)
             {
                 return Unauthorized("Invalid refresh token.");
-                
             }
             return Ok(result);
         }
@@ -54,6 +51,7 @@ namespace Projecttaskmanager.Controllers
         }
 
        [HttpPost("reset-password")]
+       //[fromBody] take the data from the Http request body and make it object.
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
         {
             await authService.ResetPasswordAsync(dto);

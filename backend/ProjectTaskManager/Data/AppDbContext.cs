@@ -17,7 +17,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<OtpCode> OtpCodes => Set<OtpCode>();
 
 
-//to create composite key...
+    //to create composite key...
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
@@ -29,6 +29,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.Property(e =>e.Code).IsRequired().HasMaxLength(6);
             entity.Property(e =>e.Purpose).IsRequired().HasMaxLength(50);
         });
+
         //  TaskDependency composite PK
         modelBuilder.Entity<TaskDependency>()
             .HasKey(td => new { td.TaskId, td.DependentTaskId });
@@ -40,7 +41,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .HasForeignKey(p => p.OwnerId)
             .OnDelete(DeleteBehavior.Restrict); // don't delete projects when user deleted
 
-            modelBuilder.Entity<ProjectTasks>()
+        modelBuilder.Entity<ProjectTasks>()
             .HasOne(t => t.Project)
             .WithMany(p => p.Tasks)
             .HasForeignKey(t => t.ProjectId)

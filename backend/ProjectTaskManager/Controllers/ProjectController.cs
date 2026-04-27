@@ -58,7 +58,7 @@ public class ProjectController(IProjectService service) : ControllerBase
             StartDate = dto.StartDate,
             EndDate = dto.EndDate
         };
-        await service.UpdateProjectAsync(id, project); //404 error
+        await service.UpdateProjectAsync(id, project); //404 erro
         return Ok("Project updated successfully");
     }
 

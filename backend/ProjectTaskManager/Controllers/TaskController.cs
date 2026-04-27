@@ -43,8 +43,8 @@ public class TaskController(ITaskService service) : ControllerBase
         //Get the logged-in user’s ID from the JWT token
         //It looks inside the JWT token and finds a specific claim -> User.FindFirstValue(ClaimTypes.NameIdentifier)
         //ClaimTypes.NameIdentifier  This is a standard claim type for: User ID
-               var isAdmin = User.IsInRole("Admin");
-
+        
+        var isAdmin = User.IsInRole("Admin");
         var tasks = await service.GetTasksByProjectId(id);
 
         // Filter to only assigned tasks if User role
@@ -82,6 +82,7 @@ public class TaskController(ITaskService service) : ControllerBase
 
     // Admin can update everything, User can only update status of their own task
   
+  //?
 [HttpPatch("{id}/status")]
 public async Task<IActionResult> UpdateTaskStatus(int id, TaskStatusUpdateDto dto)
 {
@@ -99,6 +100,7 @@ public async Task<IActionResult> UpdateTaskStatus(int id, TaskStatusUpdateDto dt
         var pendingTitles = blockingTasks
             .Where(t => t.Status != "Completed")
             .Select(t => t.Title);
+            //?
         return BadRequest($"Cannot update status. The following tasks must be completed first: {string.Join(", ", pendingTitles)}");
     }
 

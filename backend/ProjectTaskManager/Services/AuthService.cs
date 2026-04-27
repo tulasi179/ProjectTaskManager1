@@ -1,19 +1,10 @@
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Projecttaskmanager.Data;
 using Projecttaskmanager.DTOs;
 using Projecttaskmanager.Models;
-using Projecttaskmanager.Controllers;
-using System;
 using System.Text;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
@@ -22,21 +13,21 @@ namespace Projecttaskmanager.Services;
 
 public class AuthService(AppDbContext context , IConfiguration configuration) :IAuthService
 {
-    public async Task<TokenResponce?> LoginAsync(UserResponce request)
+    public async Task<(TokenResponce? Token, string? Error)> LoginAsync(UserResponce request)
     {
         var user = await context.User.FirstOrDefaultAsync(u => u.Username == request.Username);
+        
         if (user is null)
-        {
-            return null;
-        }
-        if (new PasswordHasher<Users>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed)
-        {
-            return null;
-        }
-       
-        return await CreateTokenResponse(user);
-    }
+            return (null, "Invalid username or password.");
 
+        if (!user.IsActive)
+            return (null, "Please verify your email before logging in.");
+
+        if (new PasswordHasher<Users>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed)
+            return (null, "Invalid username or password.");
+
+        return (await CreateTokenResponse(user), null);
+    }
     private async Task<TokenResponce> CreateTokenResponse(Users user)
     {
         return new TokenResponce

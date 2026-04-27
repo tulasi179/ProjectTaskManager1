@@ -10,7 +10,7 @@ namespace Projecttaskmanager.Models;
 
 public class OtpController(IOtpService otpService) : ControllerBase
 {
-    // POST api/otp/send
+    
   [HttpPost("send")]
 public async Task<IActionResult> Send([FromBody] SendOtpRequest request)
 {
@@ -27,14 +27,14 @@ public async Task<IActionResult> Send([FromBody] SendOtpRequest request)
     }
     catch (Exception ex)
     {
-        // This will show the REAL error in both terminal and frontend
+        // show REAL error in both terminal and frontend
         Console.WriteLine($"OTP SEND FAILED: {ex.Message}");
         Console.WriteLine($"INNER: {ex.InnerException?.Message}");
         return StatusCode(500, new { message = ex.Message });
     }
 }
 
-    // POST api/otp/verify
+
     [HttpPost("verify")]
     public async Task<IActionResult> Verify([FromBody] VerifyOtpRequest request)
     {

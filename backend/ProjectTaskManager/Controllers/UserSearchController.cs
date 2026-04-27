@@ -7,18 +7,16 @@ namespace Projecttaskmanager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")] // only admin can search & assign
+    [Authorize(Roles = "Admin")] 
     public class UserSearchController(IUserSearchService userSearchService) : ControllerBase
     {
-
-
-        // Search users by prefix
+        // Search by prefix
         [HttpGet("search")]
         public IActionResult SearchUsers([FromQuery] string prefix)
+        //fromQuery gets the data form the HTTP body
         {
             if (string.IsNullOrWhiteSpace(prefix))
                 return BadRequest("Prefix is required.");
-
             var result = userSearchService.SearchUsers(prefix);
             return Ok(result);
         }

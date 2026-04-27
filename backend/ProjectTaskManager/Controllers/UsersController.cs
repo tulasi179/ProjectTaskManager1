@@ -17,18 +17,19 @@ public class UsersController(IUsersService service) : ControllerBase
     public async Task<ActionResult<List<UserResponce>>> GetUsers()
         => Ok(await service.GetAllUsersAsync());
 
+
     [HttpGet("{id}")]
     public async Task<ActionResult<UserResponce>> GetUser(int id)
     {
         var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var isAdmin = User.IsInRole("Admin");
-
+//?
         if (!isAdmin && currentUserId != id)
             return Forbid();
-
         var user = await service.GetUserByIdAsync(id); // throws 404 if not found
         return Ok(user);
     }
+
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
@@ -44,6 +45,7 @@ public class UsersController(IUsersService service) : ControllerBase
         var createdUser = await service.AddUsersAsync(newUser);
         return Ok(createdUser);
     }
+    
 
     [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
@@ -62,10 +64,10 @@ public class UsersController(IUsersService service) : ControllerBase
     }
 
     [HttpPatch("change-password")]
-public async Task<IActionResult> ChangePassword(ChangePasswordDto dto)
-{
-    var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-    await service.ChangePasswordAsync(currentUserId, dto);
-    return Ok("Password changed successfully.");
-}
+    public async Task<IActionResult> ChangePassword(ChangePasswordDto dto)
+    {
+        var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        await service.ChangePasswordAsync(currentUserId, dto);
+        return Ok("Password changed successfully.");
+    }
 }

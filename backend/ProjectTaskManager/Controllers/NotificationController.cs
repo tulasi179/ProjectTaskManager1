@@ -14,7 +14,7 @@ public class NotificationController(INotificationService notificationService) : 
     [HttpGet("my")]
    public async Task<IActionResult> GetMyNotifications()
     {
-        var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);//*
+        var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);//current user id
         var notifications = await notificationService.GetUserNotifications(currentUserId);
 
         var response = notifications.Select(n => new NotificationResponseDto
@@ -48,7 +48,7 @@ public class NotificationController(INotificationService notificationService) : 
     public async Task<IActionResult> MarkAsRead(int id)
     {
         var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        await notificationService.MarkAsReadAsync(id, currentUserId);
+        await notificationService.MarkAsReadAsync(id, currentUserId);//user id and notifi is
         return Ok("Notification marked as read.");
     }
 }
