@@ -35,7 +35,7 @@ import './App.css'
             <Route path='/forgot-password' element={<ForgotPassword />} />
         
             <Route path='*' element={<Navigate to='/login' />} />
-          {/* unknown url will route to login */}
+          {/* unknown url will route to login     */}
         </Routes>
       </BrowserRouter>
     </AuthProvider>
