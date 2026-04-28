@@ -52,7 +52,7 @@ public class OtpService(AppDbContext context, IEmailService emailService) : IOtp
             if (user is not null)
             {
                 user.IsActive = true;
-                 _trie.Insert(user.Username);//sync the db with the trie
+               //  _trie.Insert(user.Username);//sync the db with the trie
 
             }
 
