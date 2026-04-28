@@ -72,6 +72,7 @@ const UserSearchTrie = ({ onSelectUser, initialValue = '' }) => {
             {!selected && results.length === 0 && query.length > 0 && !loading && (
                 <div className='no-results'>No users found</div>
             )}
+            
         </div>
     )
 }

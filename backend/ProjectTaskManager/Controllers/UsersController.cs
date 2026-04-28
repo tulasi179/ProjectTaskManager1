@@ -12,6 +12,7 @@ namespace Projecttaskmanager.Controllers;
 [ApiController]
 public class UsersController(IUsersService service) : ControllerBase
 {
+
     [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult<List<UserResponce>>> GetUsers()
@@ -23,10 +24,10 @@ public class UsersController(IUsersService service) : ControllerBase
     {
         var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var isAdmin = User.IsInRole("Admin");
-//?
         if (!isAdmin && currentUserId != id)
             return Forbid();
-        var user = await service.GetUserByIdAsync(id); // throws 404 if not found
+
+        var user = await service.GetUserByIdAsync(id); 
         return Ok(user);
     }
 
@@ -51,7 +52,7 @@ public class UsersController(IUsersService service) : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(int id, UserResponce dto)
     {
-        await service.UpdateUserAysnc(id, dto); // throws 404 if not found
+        await service.UpdateUserAysnc(id, dto); 
         return Ok("User updated successfully");
     }
 
@@ -59,7 +60,7 @@ public class UsersController(IUsersService service) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(int id)
     {
-        await service.DeleteUsersAysnc(id); // throws 404 if not found
+        await service.DeleteUsersAysnc(id); 
         return Ok("User deleted successfully");
     }
 

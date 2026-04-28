@@ -16,16 +16,6 @@ const TaskModal = ({ tasks, users, editTask, form, onChange, onSubmit, onClose,
           <label>Description</label>
           <textarea name='description' value={form.description} onChange={onChange} rows={3} required />
         </div>
-        {/* <div className='form-group'>
-          <label>Assign To</label>
-          <select name='assigneeId' value={form.assigneeId} onChange={onChange} required>
-            <option value=''>Select a user</option>
-            {users.map(u => <option key={u.id} value={u.id}>{u.username}</option>)}
-          </select>
-        </div> */}
-
-
-        {/* BEFORE - dropdown */}
 
         {/* AFTER - Trie search */}
         <div className='form-group'>

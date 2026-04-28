@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Projecttaskmanager.Models;
 
-namespace Projecttaskmanager.Services
-{
-    public interface ITaskDependencyService
+namespace Projecttaskmanager.Services;
+
+public interface ITaskDependencyService
 {
     Task<List<TaskDependency>> GetDependencies();
 
@@ -17,5 +17,4 @@ namespace Projecttaskmanager.Services
     Task<bool> RemoveDependency(int taskId, int dependentTaskId);
 
     Task<bool> WouldCreateCycle(int taskId, int dependentTaskId);
-}
 }

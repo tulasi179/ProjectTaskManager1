@@ -6,21 +6,25 @@ namespace Projecttaskmanager.Repositories;
 
 public class TaskDependencyRepository(AppDbContext context) : ITaskDependencyRepository
 {
+
     public async Task<List<TaskDependency>> GetAllAsync()
         => await context.dependent.ToListAsync();
+
 
     public async Task<List<TaskDependency>> GetByTaskIdAsync(int taskId)
         => await context.dependent
             .Where(d => d.TaskId == taskId)
             .ToListAsync();
 
+
+    // checks if there is is  a dependency relationship exist to delete a dependency
     public async Task<TaskDependency?> GetAsync(int taskId, int dependentTaskId)
         => await context.dependent
             .FirstOrDefaultAsync(d =>
                 d.TaskId == taskId &&
                 d.DependentTaskId == dependentTaskId);
 
-    // Used by cycle detection — returns next dependent IDs in the chain
+    // used by cycle detection — returns next dependent IDs in the chain
     public async Task<List<int>> GetDependentIdChainAsync(int taskId)
         => await context.dependent
             .Where(d => d.TaskId == taskId)

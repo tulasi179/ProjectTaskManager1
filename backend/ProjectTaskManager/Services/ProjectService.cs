@@ -7,8 +7,11 @@ namespace Projecttaskmanager.Services;
 
 public class ProjectService(IProjectRepository repo) :IProjectService
 {
+
     public async Task<List<Project>> GetAllProjectsAsync()
         => await repo.GetAllAsync();
+
+
     public async Task<Project?> GetProjectByIdAsync(int id)
     {
          var project = await repo.GetByIdAsync(id);
@@ -20,8 +23,10 @@ public class ProjectService(IProjectRepository repo) :IProjectService
     public  async Task<Project> AddProjectAsync(Project project)
          => await repo.AddAsync(project);
 
+
     public async Task<bool> UpdateProjectAsync(int id, Project project)
           => await repo.UpdateAsync(id, project);
+          
 
     public async Task<bool> DeleteProjectAsync(int id)
     {

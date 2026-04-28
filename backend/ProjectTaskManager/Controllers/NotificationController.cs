@@ -11,6 +11,8 @@ namespace Projecttaskmanager.Controllers;
 [Route("api/[controller]")]
 public class NotificationController(INotificationService notificationService) : ControllerBase
 {
+
+
     [HttpGet("my")]
    public async Task<IActionResult> GetMyNotifications()
     {
@@ -29,6 +31,7 @@ public class NotificationController(INotificationService notificationService) : 
         return Ok(response);
     }
 
+
     [Authorize(Roles = "Admin")]
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetUserNotifications(int userId)
@@ -42,6 +45,8 @@ public class NotificationController(INotificationService notificationService) : 
     [HttpGet]
     public async Task<ActionResult<List<NotificationResponseDto>>> GetAllUserNotification()
       => Ok( await notificationService.GetAllUserNotification());
+
+      
 
     [Authorize]
     [HttpPatch("{id}/read")]

@@ -7,22 +7,27 @@ namespace Projecttaskmanager.Repositories;
 
 public class ProjectRepository(AppDbContext context) : IProjectRepository
 {
+
+
     public async Task<List<Project>> GetAllAsync()
         => await context.project.ToListAsync();
+
 
     public async Task<Project?> GetByIdAsync(int id)
         => await context.project
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == id);
 
-    // Used by DeleteProjectAsync — loads tasks + both dependency directions
+    // used by DeleteProjectAsync — loads tasks +both dependency directions
     public async Task<Project?> GetWithTasksAndDepsAsync(int id)
+    //using include means that instead ofhitting the db every thime the everything fetched to gether
         => await context.project
             .Include(p => p.Tasks)
                 .ThenInclude(t => t.Dependencies)
             .Include(p => p.Tasks)
                 .ThenInclude(t => t.Dependents)
             .FirstOrDefaultAsync(p => p.Id == id);
+
 
     public async Task<Project> AddAsync(Project project)
     {
@@ -48,19 +53,18 @@ public class ProjectRepository(AppDbContext context) : IProjectRepository
 
     public async Task DeleteAsync(Project project)
     {
-        // 1. Delete TaskDependencies first
+        // delete TaskDependencies first
         foreach (var task in project.Tasks)
         {
             context.dependent.RemoveRange(task.Dependencies);
             context.dependent.RemoveRange(task.Dependents);
         }
-
-        // 2. Delete Tasks
+        // delete Tasks
         context.tasks.RemoveRange(project.Tasks);
-
-        // 3. Delete Project
+        // delete Project
         context.project.Remove(project);
     }
+
 
     public async Task SaveChangesAsync()
         => await context.SaveChangesAsync();

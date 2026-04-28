@@ -42,24 +42,6 @@ const ProjectTasks = () => {
     setError(''); setShowModal(true)
   }
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault(); setError('')
-  //   const payload = { ...form, projectId: parseInt(id), assigneeId: parseInt(form.assigneeId) }
-  //   try {
-  //     if (editTask) {
-  //       await updateTask(editTask.id, payload)
-  //     } else {
-  //       const res = await createTask(payload)
-  //       if (deps.selectedDep)
-  //         await api.post('/taskdependency', { taskId: parseInt(deps.selectedDep), dependentTaskId: res.data.id }).catch(() => {})
-  //     }
-  //     setShowModal(false); fetchAll()
-  //   } catch (err) {
-  //     setError(err.response?.data?.message || 'Something went wrong.')
-  //   }
-  // }
-
-
 const handleSubmit = async (e) => {
   e.preventDefault(); setError('')
   const payload = { ...form, projectId: parseInt(id), assigneeId: parseInt(form.assigneeId) }
@@ -85,7 +67,6 @@ const handleSubmit = async (e) => {
   }
 }
 
-// Add this handler in ProjectTasks.jsx
 const handleAddDep = () => {
   if (editTask) {
     deps.addDep(editTask.id)  // edit mode → save to DB immediately

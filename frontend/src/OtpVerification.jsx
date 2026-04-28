@@ -90,5 +90,4 @@ const OtpVerification = ({ email, purpose, onSuccess }) => {
         </div>
     )
 }
-
 export default OtpVerification

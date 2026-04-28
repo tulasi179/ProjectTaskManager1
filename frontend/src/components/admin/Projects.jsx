@@ -234,7 +234,6 @@ if (loading) return (
                   Cancel
                 </button>
 
-
                 <button type='submit' className='submit-btn'>
                   {editProject ? 'Update' : 'Create'}
                 </button>

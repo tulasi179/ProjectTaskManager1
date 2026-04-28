@@ -11,6 +11,7 @@ public class NotificationRepository(AppDbContext context) : INotificationReposit
     {
         context.notify.Add(notification);
     }
+    
 
     public async Task<Notification?> GetByIdAsync(int id)
         => await context.notify.FirstOrDefaultAsync(n => n.Id == id);

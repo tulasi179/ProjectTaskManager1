@@ -4,8 +4,7 @@ const api = axios.create({
     baseURL : 'https://projecttaskmanager-api-bfb8f7facydedefs.centralindia-01.azurewebsites.net/api',
 })
 
-
-//This interceptors attach access token to every request
+//this interceptors attach access token to every request
 api.interceptors.request.use((config)=>{
     const token = localStorage.getItem('token')
     if(token)

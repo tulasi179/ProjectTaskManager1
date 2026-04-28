@@ -8,57 +8,58 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
+
 namespace Projecttaskmanager.Services;
 
 
 public class AuthService(AppDbContext context , IConfiguration configuration) :IAuthService
 {
+
     public async Task<(TokenResponce? Token, string? Error)> LoginAsync(UserResponce request)
     {
         var user = await context.User.FirstOrDefaultAsync(u => u.Username == request.Username);
-        
         if (user is null)
             return (null, "Invalid username or password.");
-
-        if (!user.IsActive)
+        if (!user.IsActive)//to handle the opt verification.
             return (null, "Please verify your email before logging in.");
-
         if (new PasswordHasher<Users>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed)
             return (null, "Invalid username or password.");
 
         return (await CreateTokenResponse(user), null);
     }
+
     private async Task<TokenResponce> CreateTokenResponse(Users user)
     {
         return new TokenResponce
         {
             AccessToken = CreateToken(user),
             RefreshToken = await GenerateAndSaveRefreshTokenAsync(user)
-
         };
     }
 
-  public async Task<(Users? User, string? Error)> RegisterAsync(UserResponce request)
-{
-    if (await context.User.AnyAsync(u => u.Username == request.Username))
-        return (null, "Username already exists.");
-
-    // if (await context.User.AnyAsync(u => u.Email == request.Email))
-    //     return (null, "Email already registered.");
-
-    var user = new Users
+    public async Task<(Users? User, string? Error)> RegisterAsync(UserResponce request)
     {
-        Username = request.Username,
-        Email = request.Email,
-        Role = request.Role,
-        IsActive = false
-    };
+        if (await context.User.AnyAsync(u => u.Username == request.Username))
+            return (null, "Username already exists.");
 
-    user.PasswordHash = new PasswordHasher<Users>().HashPassword(user, request.Password);
-    context.User.Add(user);
-    await context.SaveChangesAsync();
-    return (user, null);
-}
+        // if (await context.User.AnyAsync(u => u.Email == request.Email))
+        //     return (null, "Email already registered.");
+
+        var user = new Users
+        {
+            Username = request.Username,
+            Email = request.Email,
+            Role = request.Role,
+            IsActive = false
+        };
+
+        user.PasswordHash = new PasswordHasher<Users>().HashPassword(user, request.Password);
+        context.User.Add(user);
+        await context.SaveChangesAsync();
+        return (user, null);
+    }
+
+
         //This runs when the access token expires.
      public async Task<TokenResponce?> RefreshTokensAsync(RefreshTokenRequestDto request)
     {
@@ -83,6 +84,7 @@ public class AuthService(AppDbContext context , IConfiguration configuration) :I
     private string GenerateRefreshToken()
     {
         var randomNumber = new byte[32];//256 Bits security
+        //automatically clean after done
         using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(randomNumber);
         return Convert.ToBase64String(randomNumber);
@@ -96,7 +98,8 @@ public class AuthService(AppDbContext context , IConfiguration configuration) :I
         await context.SaveChangesAsync();
         return refreshToken;
     }
-     private string CreateToken(Users user)
+
+        private string CreateToken(Users user)
         {
             var claims = new List<Claim>
             {
@@ -108,9 +111,9 @@ public class AuthService(AppDbContext context , IConfiguration configuration) :I
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(configuration.GetValue<string>("AppSettings:Token")!));
             //Loads secret key from appsettings.json.
-            //configuration.GetValue<string>("AppSettings:Token")This reads the secret key from your configuration file.
-            //Encoding.UTF8.GetBytes(...)  JWT cryptographic functions cannot work with strings directly.They require byte arrays.So this converts the string into bytes.
-            //new SymmetricSecurityKey(...) Now those bytes are used to create a security key object.
+            //configuration.GetValue<string>("AppSettings:Token") - this reads the secret key from your configuration file.
+            // JWT cryptographic functions cannot work with strings directly.They require byte arrays.So this converts the string into bytes.
+            //Now those bytes are used to create a security key object.
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
             //This line tells the system: How the token should be signed.
             //This class holds the information needed to sign the token. It needs two things:1️ Security key,2️ Signing algorithm

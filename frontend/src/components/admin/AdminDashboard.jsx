@@ -129,6 +129,7 @@ if (authLoading || loading) return (
         {/* Projects */}
         <ProjectsSection projects={projects} navigate={navigate} />
 
+
         {/* Tasks */}
         <TasksTable tasks={tasks} users={users} role="Admin" onStatusUpdate={fetchAll} />
           {/* chart */}

@@ -15,4 +15,5 @@ public interface ITaskRepository
     Task DeleteAsync(ProjectTasks task);
     Task ExecuteUpdateAsync(int id, ProjectTasks tasks);
     Task SaveChangesAsync();
+    
 }    

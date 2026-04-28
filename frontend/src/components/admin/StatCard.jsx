@@ -7,4 +7,5 @@ const StatCard = ({ label, value, color }) => {
   )
 }
 
+
 export default StatCard

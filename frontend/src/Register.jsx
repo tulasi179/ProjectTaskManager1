@@ -65,7 +65,7 @@ const Register = () => {
         }
         
         try {
-            // Step 2 — Send OTP
+            //  Send OTP
             await api.post('/otp/send', {
                 email: form.email,
                 purpose: 'registration'
@@ -76,7 +76,7 @@ const Register = () => {
             return
         }
 
-        // Step 3 — Show OTP screen
+        // Show OTP screen
         setLoading(false)
         setShowOtp(true)
     }

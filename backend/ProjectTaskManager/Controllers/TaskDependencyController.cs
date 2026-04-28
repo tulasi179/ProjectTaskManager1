@@ -11,13 +11,16 @@ namespace Projecttaskmanager.Controllers;
 [Route("api/[controller]")]
 public class TaskDependencyController(ITaskDependencyService service) : ControllerBase
 {
+
     [HttpGet]
     public async Task<ActionResult<List<TaskDependency>>> GetDependencies()
         => Ok(await service.GetDependencies());
 
+
     [HttpGet("{taskId}/dependents")]
     public async Task<ActionResult<List<TaskDependency>>> GetDependentTasksById(int taskId)
         => Ok(await service.GetDependentTasksById(taskId));
+
 
     [HttpPost] 
     public async Task<ActionResult<TaskDependency>> AddDependency(TaskDependencyRequestDto dto)
@@ -27,12 +30,9 @@ public class TaskDependencyController(ITaskDependencyService service) : Controll
             TaskId = dto.TaskId,
             DependentTaskId = dto.DependentTaskId
         };
-        //?
-
         var (success, message, data) = await service.AddDependency(dependency);
         if (!success)
             return BadRequest(new { message });
-
         return CreatedAtAction(nameof(GetDependencies), new { taskId = data!.TaskId }, data);
     }
 

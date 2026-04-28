@@ -6,6 +6,7 @@ namespace Projecttaskmanager.Data;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<Users> User => Set<Users>();
+    
     //can be used to query and save instances of Users.
     //LinQ queries against a DbSet<> will be translated into queries against the database
     //the results of a LINQ query against a DbSet <> will contain the results returned from
