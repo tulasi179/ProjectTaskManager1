@@ -38,7 +38,7 @@ public class TaskDependencyService(ITaskDependencyRepository repo) : ITaskDepend
         return true;
     }
 
-    private async Task<bool> WouldCreateCycle(int taskId, int dependentTaskId)
+    public async Task<bool> WouldCreateCycle(int taskId, int dependentTaskId)
     {
         var visited = new HashSet<int>();
         var queue = new Queue<int>();
