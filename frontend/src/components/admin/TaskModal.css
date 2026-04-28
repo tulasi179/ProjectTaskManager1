@@ -1,0 +1,75 @@
+.dep-tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ede9fe;
+  border: 1px solid #c4b5fd;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #4c1d95;
+}
+
+.dep-tag span {
+  font-weight: 500;
+}
+
+.dep-remove-btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.dep-remove-btn:hover {
+  background: #b91c1c;
+  transform: scale(1.1);
+}
+
+.dep-add-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.dep-add-row select {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.dep-add-btn {
+  background: #6946e5;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.dep-add-btn:hover {
+  background: #5735c7;
+}
+
+.optional {
+  color: #9ca3af;
+  font-weight: 400;
+  font-size: 12px;
+}

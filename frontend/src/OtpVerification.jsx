@@ -50,6 +50,11 @@ const OtpVerification = ({ email, purpose, onSuccess }) => {
                 <p className='register-subtitle'>Enter the OTP sent to</p>
                 <p><strong>{email}</strong></p>
 
+                 <p style={{ color: '#6b7280', fontSize: '13px', textAlign: 'center', marginBottom: '12px' }}>
+                If you don't receive the OTP within 2 minutes, 
+                please go back and check your email address.
+                </p>
+
                 {error && <div className="error-message">{error}</div>}
                 {resent && <div className="success-message">OTP resent successfully!</div>}
 

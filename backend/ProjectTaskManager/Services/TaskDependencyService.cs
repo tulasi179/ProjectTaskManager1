@@ -38,7 +38,6 @@ public class TaskDependencyService(ITaskDependencyRepository repo) : ITaskDepend
         return true;
     }
 
-    // Cycle detection — pure business logic, no DB access directly
     private async Task<bool> WouldCreateCycle(int taskId, int dependentTaskId)
     {
         var visited = new HashSet<int>();
@@ -56,7 +55,7 @@ public class TaskDependencyService(ITaskDependencyRepository repo) : ITaskDepend
             if (!visited.Add(current))
                 continue;
 
-            // DB access goes through repository
+            // db access goes through repository
             var nextDeps = await repo.GetDependentIdChainAsync(current);
             foreach (var next in nextDeps)
                 queue.Enqueue(next);

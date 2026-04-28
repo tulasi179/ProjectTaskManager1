@@ -38,10 +38,13 @@ public class AuthService(AppDbContext context , IConfiguration configuration) :I
         };
     }
 
-  public async Task<Users?> RegisterAsync(UserResponce request)
+  public async Task<(Users? User, string? Error)> RegisterAsync(UserResponce request)
 {
     if (await context.User.AnyAsync(u => u.Username == request.Username))
-        return null;
+        return (null, "Username already exists.");
+
+    // if (await context.User.AnyAsync(u => u.Email == request.Email))
+    //     return (null, "Email already registered.");
 
     var user = new Users
     {
@@ -52,10 +55,9 @@ public class AuthService(AppDbContext context , IConfiguration configuration) :I
     };
 
     user.PasswordHash = new PasswordHasher<Users>().HashPassword(user, request.Password);
-
     context.User.Add(user);
     await context.SaveChangesAsync();
-    return user;
+    return (user, null);
 }
         //This runs when the access token expires.
      public async Task<TokenResponce?> RefreshTokensAsync(RefreshTokenRequestDto request)

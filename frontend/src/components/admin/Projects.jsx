@@ -4,6 +4,7 @@ import './Projects.css'
 import Navbar from '../shared/Navbar'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { SkeletonCard } from '../shared/Skeleton'
 
 
 const Projects = () => {
@@ -95,7 +96,20 @@ const Projects = () => {
   }
 
 
-  if(loading) return <div className='loading'>Loading...</div>
+
+if (loading) return (
+  <div className='projects-container'>
+    <Navbar />
+    <div className='projects-content'>
+      <div className='page-header'>
+        <h2>Projects</h2>
+      </div>
+      <div className='grid'>
+        {[1,2,3,4,5,6].map(i => <SkeletonCard key={i} />)}
+      </div>
+    </div>
+  </div>
+)
 
   return (
     <div className='projects-container'>

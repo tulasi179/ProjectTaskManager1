@@ -15,7 +15,7 @@ namespace Projecttaskmanager.Services
         {
             _trie = new Trie();
 
-            //  Create a temporary scope to get AppDbContext
+            //  created a temporary scope to get AppDbContext
             using var scope = scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 

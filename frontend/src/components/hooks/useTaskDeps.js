@@ -19,15 +19,15 @@ export const useTaskDeps = (tasks, dependencies, onRefresh) => {
       .filter(t => t && t.status !== 'Completed')
       .map(t => t.title)
 
-  const loadDepsForTask = async (taskId) => {
+ const loadDepsForTask = async (taskId) => {
     try {
-      const res = await api.get(`/taskdependency/${taskId}/dependents`)
-      setExistingDeps(Array.isArray(res.data) ? res.data : [])
+        const res = await api.get('/taskdependency')
+        const deps = Array.isArray(res.data) ? res.data : []
+        setExistingDeps(deps.filter(d => parseInt(d.dependentTaskId) === parseInt(taskId)))
     } catch {
-      setExistingDeps([])
+        setExistingDeps([])
     }
-  }
-
+}
 
   const addDep = async (dependentTaskId) => {
     if (!selectedDep) return
@@ -45,9 +45,9 @@ export const useTaskDeps = (tasks, dependencies, onRefresh) => {
 
   const removeDep = async (taskId, dependentTaskId) => {
     await api.delete(`/taskdependency/${taskId}/${dependentTaskId}`)
-    setExistingDeps(prev => prev.filter(d => d.taskId !== taskId))
+    setExistingDeps(prev => prev.filter(d => !(d.taskId === taskId && d.dependentTaskId === dependentTaskId)))
     onRefresh()
-  }
+}
 
   const addPendingDep = () => {
   if (!selectedDep) return

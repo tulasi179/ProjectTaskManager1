@@ -1,4 +1,5 @@
 import UserSearchTrie from "./UserSearchTrie"
+import './TaskModal.css'
 const TaskModal = ({ tasks, users, editTask, form, onChange, onSubmit, onClose,
                      existingDeps, selectedDep, setSelectedDep, depError, onAddDep, onRemoveDep, error }) => (
   <div className='modal-overlay' onClick={onClose}>

@@ -16,6 +16,6 @@ namespace Projecttaskmanager.Services
 
     Task<bool> RemoveDependency(int taskId, int dependentTaskId);
 
-    //Task<bool> WouldCreateCycle(int taskId, int dependentTaskId);
+    Task<bool> WouldCreateCycle(int taskId, int dependentTaskId);
 }
 }

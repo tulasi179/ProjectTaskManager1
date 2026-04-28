@@ -41,7 +41,7 @@ api.interceptors.response.use(
                 return api(originalRequest)
 
             } catch (err) {
-                //  IMPORTANT: force logout
+                // force logout
                 localStorage.clear()
                 window.location.href = "/login"
             }
