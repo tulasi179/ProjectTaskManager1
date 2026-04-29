@@ -6,6 +6,7 @@ namespace Projecttaskmanager.Repositories;
 
 public class TaskRepository(AppDbContext context) : ITaskRepository
 {
+
     public async Task<List<ProjectTasks>> GetAllAsync()
         => await context.tasks.ToListAsync();
 
@@ -14,7 +15,7 @@ public class TaskRepository(AppDbContext context) : ITaskRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(t => t.Id == id);
 
-    // Used by DeleteTaskAsync — loads both dependency directions
+    // used by DeleteTaskAsync — loads both dependency directions
     public async Task<ProjectTasks?> GetWithDependenciesAsync(int id)
         => await context.tasks
             .Include(t => t.Dependencies)
@@ -31,7 +32,7 @@ public class TaskRepository(AppDbContext context) : ITaskRepository
             .Where(t => t.AssigneeId == userId)
             .ToListAsync();
 
-    // Tasks that must complete BEFORE this task (blockers)
+    // tasks that must complete before this task (blockers)
     public async Task<List<ProjectTasks>> GetBlockingTasksAsync(int taskId)
         => await context.dependent
             .Where(d => d.DependentTaskId == taskId)
@@ -41,7 +42,7 @@ public class TaskRepository(AppDbContext context) : ITaskRepository
                 (d, t) => t)
             .ToListAsync();
 
-    // Tasks that are waiting on this task to complete (dependents)
+    // tasks that are waiting on this task to complete (dependents)
     public async Task<List<ProjectTasks>> GetDependentTasksAsync(int taskId)
         => await context.dependent
             .Where(d => d.TaskId == taskId)
@@ -60,11 +61,10 @@ public class TaskRepository(AppDbContext context) : ITaskRepository
 
     public async Task DeleteAsync(ProjectTasks task)
     {
-        // 1. Delete dependencies both directions
+        //  delete dependencies both directions
         context.dependent.RemoveRange(task.Dependencies);
         context.dependent.RemoveRange(task.Dependents);
-
-        // 2. Delete task
+        //delete task
         context.tasks.Remove(task);
     }
 

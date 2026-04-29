@@ -14,6 +14,7 @@ const ProjectsSection = ({ projects, navigate }) => {
           View All →
         </button>
       </div>
+      
 
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
         {projects.slice(0, 3).map(p => (

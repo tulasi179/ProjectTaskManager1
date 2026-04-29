@@ -6,6 +6,7 @@ import api from '../../api/axios'
 import TasksChart from './TasksChart'
 import './AdminDashboard.css'
 import Footer from '../shared/Footer'
+import { SkeletonStatCard, SkeletonCard } from '../shared/Skeleton'
 
 import StatCard from './StatCard'
 import ProjectsSection from './ProjectsSection'
@@ -69,13 +70,26 @@ const AdminDashboard = () => {
   const completedTasks = tasks.filter(t => t.status === 'Completed')
   const unreadNotifs = notifications.filter(n => !n.readStatus)
 
-  if (authLoading || loading) {
-    return (
-      <div className='flex items-center justify-center h-screen text-gray-500 text-lg'>
-        Loading...
+
+if (authLoading || loading) return (
+  <div className='min-h-screen bg-gray-100'>
+    <Navbar />
+    <div className='max-w-7xl mx-auto px-6 py-8'>
+      <div className='mb-8'>
+        <div style={{height:'28px', width:'200px', borderRadius:'6px', background:'#e0e0e0', marginBottom:'8px'}}></div>
+        <div style={{height:'20px', width:'80px', borderRadius:'999px', background:'#e0e0e0'}}></div>
       </div>
-    )
-  }
+      {/* Stat Cards Skeleton */}
+      <div className='grid grid-cols-2 md:grid-cols-5 gap-4 mb-8'>
+        {[1,2,3,4,5].map(i => <SkeletonStatCard key={i} />)}
+      </div>
+      {/* Projects Skeleton */}
+      <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'16px', marginBottom:'24px'}}>
+        {[1,2,3].map(i => <SkeletonCard key={i} />)}
+      </div>
+    </div>
+  </div>
+)
 
 
 
@@ -114,6 +128,7 @@ const AdminDashboard = () => {
 
         {/* Projects */}
         <ProjectsSection projects={projects} navigate={navigate} />
+
 
         {/* Tasks */}
         <TasksTable tasks={tasks} users={users} role="Admin" onStatusUpdate={fetchAll} />

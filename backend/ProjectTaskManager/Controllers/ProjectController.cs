@@ -11,16 +11,19 @@ namespace Projecttaskmanager.Controllers;
 [ApiController]
 public class ProjectController(IProjectService service) : ControllerBase
 {
+
     [HttpGet]
     public async Task<ActionResult<List<Project>>> GetProject()
         => Ok(await service.GetAllProjectsAsync());
 
+
     [HttpGet("{id}")]
     public async Task<ActionResult<Project>> GetProject(int id)
     {
-        var project = await service.GetProjectByIdAsync(id); //404 error handled in service.
+        var project = await service.GetProjectByIdAsync(id); 
         return Ok(project);
     }
+
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
@@ -46,6 +49,7 @@ public class ProjectController(IProjectService service) : ControllerBase
         });
     }
 
+
     [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProject(int id, ProjectRequestDTOs dto)
@@ -61,6 +65,7 @@ public class ProjectController(IProjectService service) : ControllerBase
         await service.UpdateProjectAsync(id, project); //404 erro
         return Ok("Project updated successfully");
     }
+
 
     [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]

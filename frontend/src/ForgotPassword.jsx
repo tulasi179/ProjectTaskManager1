@@ -13,7 +13,7 @@ const ForgotPassword = () => {
     const [otpVerified, setOtpVerified] = useState(false)
     const navigate = useNavigate()
 
-    // Step 1 — enter email, send OTP
+    //enter email, send OTP
     const handleSendOtp = async (e) => {
         e.preventDefault()
         setLoading(true)
@@ -32,7 +32,7 @@ const ForgotPassword = () => {
         }
     }
 
-    // Step 3 — after OTP verified, reset password
+    //after OTP verified, reset password
     const handleResetPassword = async (e) => {
         e.preventDefault()
         setLoading(true)
@@ -51,18 +51,18 @@ const ForgotPassword = () => {
         }
     }
 
-    // Step 2 — show OTP screen
+    //show OTP screen
     if (showOtp && !otpVerified) {
         return (
             <OtpVerification
                 email={email}
                 purpose="forgot-password"
-                onSuccess={() => setOtpVerified(true)} // ✅ show reset password form
+                onSuccess={() => setOtpVerified(true)} // show reset password form
             />
         )
     }
 
-    // Step 3 — show new password form
+    // show new password form
     if (otpVerified) {
         return (
             <div className='register-container'>
@@ -93,7 +93,7 @@ const ForgotPassword = () => {
         )
     }
 
-    // Step 1 — enter email
+    // enter email
     return (
         <div className='register-container'>
             <div className='register-box'>

@@ -5,19 +5,22 @@ namespace Projecttaskmanager.Services;
 
 public class TaskDependencyService(ITaskDependencyRepository repo) : ITaskDependencyService
 {
+
     public async Task<List<TaskDependency>> GetDependencies()
         => await repo.GetAllAsync();
+
 
     public async Task<List<TaskDependency>> GetDependentTasksById(int taskId)
         => await repo.GetByTaskIdAsync(taskId);
 
+
     public async Task<(bool Success, string Message, TaskDependency? Data)> AddDependency(TaskDependency dependency)
     {
-        // Prevent self-dependency
+        // prevent self-dependency
         if (dependency.TaskId == dependency.DependentTaskId)
             return (false, "A task cannot depend on itself.", null);
 
-        // Check for circular dependency
+        // check for circular dependency
         bool hasCycle = await WouldCreateCycle(dependency.TaskId, dependency.DependentTaskId);
         if (hasCycle)
             return (false, "Adding this dependency would create a circular dependency.", null);
@@ -38,30 +41,24 @@ public class TaskDependencyService(ITaskDependencyRepository repo) : ITaskDepend
         return true;
     }
 
-    // Cycle detection — pure business logic, no DB access directly
-    private async Task<bool> WouldCreateCycle(int taskId, int dependentTaskId)
+//BFS 
+    public async Task<bool> WouldCreateCycle(int taskId, int dependentTaskId)
     {
         var visited = new HashSet<int>();
         var queue = new Queue<int>();
-
         queue.Enqueue(dependentTaskId);
-
         while (queue.Count > 0)
         {
             int current = queue.Dequeue();
-
             if (current == taskId)
-                return true;
-
+                return true;//self cycle/loop
             if (!visited.Add(current))
                 continue;
-
-            // DB access goes through repository
+          
             var nextDeps = await repo.GetDependentIdChainAsync(current);
             foreach (var next in nextDeps)
                 queue.Enqueue(next);
         }
-
         return false;
     }
 }

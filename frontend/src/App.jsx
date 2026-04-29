@@ -1,7 +1,6 @@
 import Register from './Register'
 import Login from './Login'
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
-//import Dashboard from './components/Dashboard/Dashboard'
 import AdminDashboard from './components/admin/AdminDashboard'
 import UserDashboard from './components/user/UserDashboard'
 import { AuthProvider } from './context/AuthContext'
@@ -15,8 +14,7 @@ import './App.css'
 
 
  const App = () => {
-  //  const { user } = useAuth()
-  // console.log('App level user:', user)
+  
   return (
     <AuthProvider>
       <BrowserRouter>

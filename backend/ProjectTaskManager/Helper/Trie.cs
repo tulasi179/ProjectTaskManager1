@@ -25,6 +25,7 @@ namespace Projecttaskmanager.Helpers
             var node = _root;
             foreach (var ch in user.Username.ToLower())
             {
+                //letter by letter add ing into the nodes in trie
                 if (!node.Children.ContainsKey(ch))
                     node.Children[ch] = new TrieNode();
                 node = node.Children[ch];

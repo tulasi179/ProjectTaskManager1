@@ -6,6 +6,7 @@ namespace Projecttaskmanager.Services;
 
 public class NotificationService(INotificationRepository repo, IUserRepository userRepo) : INotificationService
 {
+
     public async Task CreateNotification(int userId, string Message)
     {
         var notification = new Notification
@@ -14,7 +15,6 @@ public class NotificationService(INotificationRepository repo, IUserRepository u
             message = Message,
             CreatedAt = DateTime.UtcNow
         };
-
         await repo.AddAsync(notification);
         await repo.SaveChangesAsync();
     }
@@ -36,9 +36,9 @@ public class NotificationService(INotificationRepository repo, IUserRepository u
         var notification = await repo.GetByIdAsync(notificationId);
         if (notification is null)
             throw new KeyNotFoundException($"Notification with Id {notificationId} was not found.");
-
         if (notification.UserId != userId)
             throw new UnauthorizedAccessException("You can only mark your own notifications as read.");
+
 
         notification.ReadStatus = true;
         await repo.SaveChangesAsync();

@@ -10,4 +10,4 @@ public interface INotificationRepository
     Task<List<Notification>> GetByUserIdAsync(int userId);
     Task<List<NotificationResponseDto>> GetAllAsync();
     Task SaveChangesAsync();
-}
+} 

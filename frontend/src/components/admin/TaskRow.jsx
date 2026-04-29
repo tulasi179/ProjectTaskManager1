@@ -4,7 +4,7 @@ const TaskRow = ({ task, users, isAdmin, isBlocked, blockingNames, onEdit, onDel
   const assignee = users.find(u => u.id === task.assigneeId)
   const blocked = isBlocked(task.id)
   const names = blockingNames(task.id)
-
+// list of task in the paticular project
   return (
     <tr className={blocked ? 'blocked-row' : ''}>
       <td>{task.title}</td>

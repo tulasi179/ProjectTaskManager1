@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import api from '../../api/axios'
 import './Notifications.css'
 import Navbar from '../shared/Navbar'
+import { SkeletonNotif } from '../shared/Skeleton'
 
 const Notifications = () => {
   const { user, authLoading } = useAuth()
@@ -55,9 +56,21 @@ const Notifications = () => {
   const unread = notifications.filter(n => !n.readStatus)
   const read = notifications.filter(n => n.readStatus)
 
-  if (authLoading || loading) {
-    return <div className='notif-loading'>Loading...</div>
-  }
+
+if (authLoading || loading) return (
+  <div className='notif-container'>
+    <Navbar />
+    <div className='notif-content'>
+      <div className='notif-header'>
+        <div>
+          <div style={{height:'24px', width:'150px', borderRadius:'6px', background:'#e0e0e0', marginBottom:'8px'}}></div>
+          <div style={{height:'16px', width:'80px', borderRadius:'6px', background:'#e0e0e0'}}></div>
+        </div>
+      </div>
+      {[1,2,3,4,5].map(i => <SkeletonNotif key={i} />)}
+    </div>
+  </div>
+)
 
   return (
     <div className='notif-container'>

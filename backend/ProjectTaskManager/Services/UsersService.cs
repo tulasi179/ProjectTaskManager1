@@ -10,6 +10,7 @@ public class UsersServices(IUserRepository repo) : IUsersService
     public async Task<List<UserResponce>> GetAllUsersAsync()
         => await repo.GetAllAsync();
 
+
     public async Task<UserResponce?> GetUserByIdAsync(int id)
     {
         var result = await repo.GetByIdAsync(id);

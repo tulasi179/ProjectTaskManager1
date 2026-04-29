@@ -14,6 +14,5 @@ namespace Projecttaskmanager.Services
         Task<bool> UpdateProjectAsync(int id, Project project);
         Task<bool> DeleteProjectAsync(int id);
 
-
     }
 }

@@ -33,8 +33,10 @@ public class EmailService(IConfiguration config) : IEmailService
                 DeliveryMethod = SmtpDeliveryMethod.Network
             };
 
-            Console.WriteLine($"Connecting to {config["Email:SmtpHost"]}:{config["Email:SmtpPort"]}...");
+           // Console.WriteLine($"Connecting to {config["Email:SmtpHost"]}:{config["Email:SmtpPort"]}...");
 
+
+            //email object to be sent.
             var mail = new MailMessage
             {
                 From = new MailAddress(config["Email:From"]!, "ProjectTaskManager"),

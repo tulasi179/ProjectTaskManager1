@@ -13,4 +13,5 @@ public interface IUserRepository
     Task<bool> UpdateAsync(int id, UserResponce dto);
     Task<bool> DeleteAsync(int id);
     Task SaveChangesAsync();
+    
 }

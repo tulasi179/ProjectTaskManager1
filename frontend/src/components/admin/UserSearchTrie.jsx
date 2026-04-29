@@ -2,23 +2,20 @@ import { useState, useEffect } from 'react'
 import api from '../../api/axios'
 import './UserSearchTrie.css'
 
-let trieBuilt = false
-
-
 const UserSearchTrie = ({ onSelectUser, initialValue = '' }) => {
-    const [query, setQuery] = useState(initialValue) //  shows existing user in edit mode
+    const [query, setQuery] = useState(initialValue)
     const [results, setResults] = useState([])
     const [loading, setLoading] = useState(false)
+    const [selected, setSelected] = useState(!!initialValue) // tracks if user is selected
 
-
-    // Set initial value when editing
     useEffect(() => {
         setQuery(initialValue)
-        setResults([])//clear old dropdown results
+        setResults([])
+        setSelected(!!initialValue) // if initialValue exists, mark as selected
     }, [initialValue])
 
-    // Search as user types
     useEffect(() => {
+        if (selected) return // don't search if user already selected
         if (query.length < 1) { setResults([]); return }
 
         const delay = setTimeout(async () => {
@@ -34,7 +31,7 @@ const UserSearchTrie = ({ onSelectUser, initialValue = '' }) => {
         }, 300)
 
         return () => clearTimeout(delay)
-    }, [query])
+    }, [query, selected])
 
     return (
         <div className='user-search'>
@@ -42,7 +39,10 @@ const UserSearchTrie = ({ onSelectUser, initialValue = '' }) => {
                 type='text'
                 placeholder='Search user to assign...'
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => {
+                    setQuery(e.target.value)
+                    setSelected(false) // user is typing again, reset selected
+                }}
                 className='search-input'
             />
 
@@ -55,8 +55,9 @@ const UserSearchTrie = ({ onSelectUser, initialValue = '' }) => {
                             key={user.id}
                             onClick={() => {
                                 onSelectUser(user)
-                                setQuery(user.username) // ✅ show selected name in input
-                                setResults([])           // ✅ close dropdown
+                                setQuery(user.username)
+                                setResults([])
+                                setSelected(true) // mark as selected
                             }}
                             className='search-result-item'
                         >
@@ -67,9 +68,11 @@ const UserSearchTrie = ({ onSelectUser, initialValue = '' }) => {
                 </ul>
             )}
 
-            {results.length === 0 && query.length > 0 && !loading && (
+            {/* Only show "No users found" when NOT selected */}
+            {!selected && results.length === 0 && query.length > 0 && !loading && (
                 <div className='no-results'>No users found</div>
             )}
+            
         </div>
     )
 }

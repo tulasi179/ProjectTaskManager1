@@ -3,7 +3,7 @@ import { Chart, ArcElement, DoughnutController, Tooltip, Legend } from 'chart.js
 
 Chart.register(ArcElement, DoughnutController, Tooltip, Legend)
 
-// Unique color per project (cycles if more than 8 projects)
+// unique color per project (cycles if more than 8 projects)
 const PROJECT_COLORS = [
   '#534AB7', // purple
   '#D85A30', // coral
