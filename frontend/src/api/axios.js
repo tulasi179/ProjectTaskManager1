@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL : 'https://projecttaskmanager-api-bfb8f7facydedefs.centralindia-01.azurewebsites.net/api',
+    baseURL : 'http://localhost:5093/api',
 })
 
 //this interceptors attach access token to every request
@@ -27,7 +27,7 @@ api.interceptors.response.use(
                 const userId = localStorage.getItem("userId")
 
                 const response = await axios.post(
-                    "https://projecttaskmanager-api-bfb8f7facydedefs.centralindia-01.azurewebsites.net/api/auth/refresh-token", 
+                    "http://localhost:5093/api/auth/refresh-token", 
                     { userId, refreshToken }
                 )
 

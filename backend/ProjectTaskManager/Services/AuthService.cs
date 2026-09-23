@@ -42,8 +42,8 @@ public class AuthService(AppDbContext context , IConfiguration configuration) :I
         if (await context.User.AnyAsync(u => u.Username == request.Username))
             return (null, "Username already exists.");
 
-        // if (await context.User.AnyAsync(u => u.Email == request.Email))
-        //     return (null, "Email already registered.");
+        if (await context.User.AnyAsync(u => u.Email == request.Email))
+            return (null, "Email already registered.");
 
         var user = new Users
         {

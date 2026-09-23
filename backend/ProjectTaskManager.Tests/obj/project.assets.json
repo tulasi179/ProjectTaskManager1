@@ -1828,7 +1828,7 @@
       },
       "Projecttaskmanager/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v9.0",
+        "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "BCrypt.Net-Next": "4.1.0",
           "MailKit": "4.11.0",
@@ -4392,8 +4392,8 @@
     },
     "Projecttaskmanager/1.0.0": {
       "type": "project",
-      "path": "../Projecttaskmanager/Projecttaskmanager.csproj",
-      "msbuildProject": "../Projecttaskmanager/Projecttaskmanager.csproj"
+      "path": "../ProjectTaskManager/Projecttaskmanager.csproj",
+      "msbuildProject": "../ProjectTaskManager/Projecttaskmanager.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -4410,19 +4410,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\.nuget\\packages\\": {}
+    "C:\\Users\\TulasiNalluri\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\ProjectTaskManager.Tests\\ProjectTaskManager.Tests.csproj",
+      "projectUniqueName": "D:\\OneDrive - WinWire\\dev\\ProjectTaskManager1\\backend\\ProjectTaskManager.Tests\\ProjectTaskManager.Tests.csproj",
       "projectName": "ProjectTaskManager.Tests",
-      "projectPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\ProjectTaskManager.Tests\\ProjectTaskManager.Tests.csproj",
-      "packagesPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\ProjectTaskManager.Tests\\obj\\",
+      "projectPath": "D:\\OneDrive - WinWire\\dev\\ProjectTaskManager1\\backend\\ProjectTaskManager.Tests\\ProjectTaskManager.Tests.csproj",
+      "packagesPath": "C:\\Users\\TulasiNalluri\\.nuget\\packages\\",
+      "outputPath": "D:\\OneDrive - WinWire\\dev\\ProjectTaskManager1\\backend\\ProjectTaskManager.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\TulasiNalluri\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -4434,8 +4434,8 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\Projecttaskmanager.csproj": {
-              "projectPath": "C:\\Users\\TULASINALLURI.DESKTOP-NALLURI\\Desktop\\ProjectTaskManager1\\backend\\Projecttaskmanager\\Projecttaskmanager.csproj"
+            "D:\\OneDrive - WinWire\\dev\\ProjectTaskManager1\\backend\\ProjectTaskManager\\Projecttaskmanager.csproj": {
+              "projectPath": "D:\\OneDrive - WinWire\\dev\\ProjectTaskManager1\\backend\\ProjectTaskManager\\Projecttaskmanager.csproj"
             }
           }
         }
@@ -4505,7 +4505,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.112/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

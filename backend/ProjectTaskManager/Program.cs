@@ -65,7 +65,7 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 
 
 
-//frontend runs on different prot and backend runs on different port 
+//frontend runs on different port and backend runs on different port 
 //CORS help frontend to call the apis
 builder.Services.AddCors(options =>
 {
