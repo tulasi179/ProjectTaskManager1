@@ -18,7 +18,7 @@ builder.Services.AddControllers()//401
             System.Text.Json.JsonNamingPolicy.CamelCase;
     });
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddOpenApi();
+builder.Services.AddOpenApi();
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -99,7 +99,7 @@ catch (Exception ex)
 //only runns locally setup the scalar
 if (app.Environment.IsDevelopment())
 {
-    //app.MapOpenApi();
+    app.MapOpenApi();
     app.MapScalarApiReference();
     //both do the same thing displays the api doc
 
