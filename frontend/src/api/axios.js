@@ -1,7 +1,9 @@
 import axios from 'axios'
+const API_BASE = import.meta.env.VITE_API_URL
+
 
 const api = axios.create({
-    baseURL : 'http://localhost:5093/api',
+    baseURL : `${API_BASE}/api`,//'http://localhost:5093/api',
 })
 
 //this interceptors attach access token to every request
@@ -27,7 +29,7 @@ api.interceptors.response.use(
                 const userId = localStorage.getItem("userId")
 
                 const response = await axios.post(
-                    "http://localhost:5093/api/auth/refresh-token", 
+                    `${API_BASE}/api/auth/refresh-token`, 
                     { userId, refreshToken }
                 )
 
