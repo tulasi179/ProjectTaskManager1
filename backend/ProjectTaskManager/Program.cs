@@ -73,7 +73,8 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
             "http://localhost:5173",
-            "https://agreeable-dune-0e39f5a00.1.azurestaticapps.net")
+            "https://agreeable-dune-0e39f5a00.1.azurestaticapps.net",
+              "http://54.226.54.84:8081")
               .AllowAnyHeader()
               .AllowAnyMethod()
                .AllowCredentials();
